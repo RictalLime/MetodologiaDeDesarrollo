@@ -1,8 +1,11 @@
 import React from "react";
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient("", "")
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 // const { data, error } = await supabase
 //   .from('talla')
@@ -10,9 +13,16 @@ const supabase = createClient("", "")
 //   .select()
 
 const { data, error } = await supabase
-  .from('producto')
-  .insert({modelo: "prueba", marca: "prueba", precio: 180.0, color: "blanco", tallaid: 5, disponibles: 200})
-  .select()
+  .from("producto")
+  .insert({
+    modelo: "prueba",
+    marca: "prueba",
+    precio: 180.0,
+    color: "blanco",
+    tallaid: 5,
+    disponibles: 200,
+  })
+  .select();
 
 // const { data, error } = await supabase
 //   .from('producto')
