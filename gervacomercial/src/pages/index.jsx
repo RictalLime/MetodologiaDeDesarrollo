@@ -7,7 +7,6 @@ function Home() {
       <h1 className="text-4xl text-center text-negro">
         Gerva Comercial Proximamente
       </h1>
-      <MenuCerrarSesion/>
     </div>
   );
 }
