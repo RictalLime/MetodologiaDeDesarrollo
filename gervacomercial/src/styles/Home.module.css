@@ -1,0 +1,146 @@
+.root {
+    --primary: #1f1f21;
+    --text: white;
+    --text-gray: #9d9d9e;
+    --hover: #353537;
+    --border: #3c3c3e;
+    --error: #e3452f;
+    --bg: #373739;
+  }
+  
+/*.body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--bg);
+  }*/
+  
+.header {
+    position: fixed;
+    height: 5rem;
+    padding: 0 1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: var(--primary);
+    justify-content: end;
+  }
+  
+.navigationGroup {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+.icon {
+    cursor: pointer;
+    width: 2.25rem;
+    height: 2.25rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+.icon:hover {
+    transform: scale(1.1);
+  }
+  
+.profile {
+    width: 3.125rem;
+    height: 3.125rem;
+    cursor: pointer;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+.profile:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+  }
+  
+.dropdownWrapper {
+    width: 19rem;
+    top: 5.25rem;
+    right: 1rem;
+    padding: 1rem;
+    position: absolute;
+    border-radius: 0.75rem;
+    background: var(--primary);
+    display: none;
+    flex-direction: column;
+    color: var(--text);
+  }
+  
+.show {
+    display: flex;
+    animation: fadeInAnimation 0.3s forwards;
+  }
+  
+.hide {
+    opacity: 0;
+    visibility: hidden;
+    animation: fadeOutAnimation 0.3s forwards;
+  }
+  
+@keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  
+  @keyframes fadeOutAnimation {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  
+  .divider {
+    border: 1px solid var(--text-gray);
+  }
+  
+  .switchAccount ul {
+    display: flex;
+    gap: 1.25rem;
+    flex-direction: column;
+  }
+  
+  .switchAccount li {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .active {
+    background: var(--hover);
+    color: var(--text);
+  }
+  
+  .marker {
+    background: yellowgreen;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    display: none;
+  }
+  
+  .active .marker {
+    display: block;
+  }
+  
+  .signOutAll {
+    background: var(--hover);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+  
