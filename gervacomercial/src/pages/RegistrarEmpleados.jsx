@@ -1,6 +1,6 @@
 import React from "react";
 
-function CrearEmpleados() {
+function RegistrarEmpleados() {
   return (
     <div className="w-screen relative h-screen flex flex-col items-center bg-white text-black p-20">
       <img
@@ -42,4 +42,4 @@ function CrearEmpleados() {
   );
 }
 
-export default CrearEmpleados;
+export default RegistrarEmpleados;
