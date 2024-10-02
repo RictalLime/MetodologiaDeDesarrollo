@@ -1,18 +1,8 @@
-import React from 'react'
-import Head from 'next/head';
-import Image from 'next/image';
-import { useState } from 'react';
-import styles from '../styles/Home.module.css';
-
-/*function MenuCerrarSesion() {
-  return (
-    <div>
-      
-    </div>
-  )
-}*/
-
-// pages/index.js
+import React from "react";
+import Head from "next/head";
+import Image from "next/image";
+import { useState } from "react";
+import styles from "../styles/Home.module.css";
 
 function MenuCerrarSesion() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -22,25 +12,24 @@ function MenuCerrarSesion() {
   };
 
   const handleDocumentClick = (event) => {
-    if (!event.target.closest(`.${styles.dropdownWrapper}`) && 
-        !event.target.closest(`.${styles.profile}`)) {
+    if (
+      !event.target.closest(`.${styles.dropdownWrapper}`) &&
+      !event.target.closest(`.${styles.profile}`)
+    ) {
       setDropdownVisible(false);
     }
   };
 
   // Add event listener for clicks outside the dropdown
-  if (typeof window !== 'undefined') {
-    document.addEventListener('click', handleDocumentClick);
+  if (typeof window !== "undefined") {
+    document.addEventListener("click", handleDocumentClick);
   }
 
   return (
     <>
       <Head>
         <title>Dropdown Menu 09</title>
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -78,7 +67,8 @@ function MenuCerrarSesion() {
         </div>
 
         <div
-          className="absolute right-4 top-20 p-4 w-76 bg-gray-900 text-white rounded-lg hidden flex-col animate-fadeIn" id="dropdown"
+          className="absolute right-4 top-20 p-4 w-76 bg-gray-900 text-white rounded-lg hidden flex-col animate-fadeIn"
+          id="dropdown"
         >
           <nav>
             <ul>
@@ -144,5 +134,4 @@ function MenuCerrarSesion() {
   );
 }
 
-
-export default MenuCerrarSesion
+export default MenuCerrarSesion;
