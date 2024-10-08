@@ -16,7 +16,8 @@ const supabase = createClient(
 //   .insert({nombre: "grande"})
 //   .select()
 
-const { data, error } = await supabase
+{
+  /*const { data, error } = await supabase
   .from("producto")
   .insert({
     modelo: "prueba",
@@ -27,6 +28,8 @@ const { data, error } = await supabase
     disponibles: 200,
   })
   .select();
+  */
+}
 
 // const { data, error } = await supabase
 //   .from('producto')
@@ -59,7 +62,7 @@ function Home() {
         <div className="mb-2 flex flex-col">
           <label className="text-lg font-bold">Rol</label>
           <select
-            className="border-2 border-negro rounded-[25px]"
+            className="border-2 border-negro rounded-[25px] pl-2"
             name="RolOpciones"
             id="RolSelect"
             {...register("option")}
@@ -80,7 +83,7 @@ function Home() {
             Correo Eléctronico o nombre de usuario
           </label>
           <input
-            className="border-2 border-negro rounded-[25px]"
+            className="border-2 border-negro rounded-[25px] pl-2"
             type="text"
             name="email"
             id="emailInput"
@@ -93,7 +96,7 @@ function Home() {
         <div className="mb-2 flex flex-col">
           <label className="text-lg font-bold">Contraseña</label>
           <input
-            className="border-2 border-negro rounded-[25px]"
+            className="border-2 border-negro rounded-[25px] pl-2"
             type="password"
             {...register("password")}
           />
