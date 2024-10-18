@@ -60,25 +60,6 @@ function Home() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-2 flex flex-col">
-          <label className="text-lg font-bold">Rol</label>
-          <select
-            className="border-2 border-negro rounded-[25px] pl-2"
-            name="RolOpciones"
-            id="RolSelect"
-            {...register("option")}
-          >
-            <option value="">Selecciona un rol</option>
-            {roles.map((role) => (
-              <option key={role.id} value={role.name}>
-                {role.name}
-              </option>
-            ))}
-          </select>
-          {errors.option && (
-            <span className="text-red-500">{errors.option.message}</span>
-          )}
-        </div>
-        <div className="mb-2 flex flex-col">
           <label className="text-lg font-bold">
             Correo Eléctronico o nombre de usuario
           </label>
@@ -105,7 +86,7 @@ function Home() {
           )}
         </div>
         <button
-          className="text-lg border p-1 mt-5 rounded-[25px] border-negro bg-blue-400"
+          className="text-lg border p-1 mt-5 rounded-[25px] border-negro bg-azul"
           type="submit"
         >
           Iniciar sesión

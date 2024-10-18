@@ -14,7 +14,7 @@ function Navbar() {
 
   return (
     <div>
-      <div className="w-screen h-20 bg-blue-400 flex justify-center relative">
+      <div className="w-screen h-20 bg-azul flex justify-center relative">
         <img
           src="/menu.svg"
           alt=""
@@ -29,44 +29,51 @@ function Navbar() {
             X
           </p>
           <Link
-            href={"/RegistrarProductos"}
+            href={"/registrar-productos"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Registrar producto
           </Link>
           <Link
-            href={"/RegistrarProductos"}
+            href={"/consultar-productos"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Lista de productos
           </Link>
           <Link
-            href={"/RegistrarEmpleados"}
+            href={"/registrar-empleados"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Registrar empleados
           </Link>
           <Link
-            href={"/RegistrarProductos"}
+            href={"/consultar-empleados"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Lista de empleados
           </Link>
           <Link
             href={"/RegistrarProductos"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Registrar ventas
           </Link>
           <Link
             href={"/RegistrarProductos"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Consultar ventas
           </Link>
           <Link
             href={"/RegistrarProductos"}
             className="text-lg underline underline-offset-1 mb-2"
+            onClick={handleCloseMenu}
           >
             Cerrar sesión
           </Link>
