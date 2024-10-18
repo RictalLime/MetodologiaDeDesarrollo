@@ -43,7 +43,7 @@ function EditarProductos({ onClose }) {
                 className="border border-negro rounded-[25px] h-8"
                 type="number"
                 name="precio"
-                {...register("precio")}
+                {...register("precio", { valueAsNumber: true })}
               />
               {errors.precio && (
                 <span className="text-red-500">{errors.precio.message}</span>

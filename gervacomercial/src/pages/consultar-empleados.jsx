@@ -1,7 +1,17 @@
+import EditarEmpleados from "@/componentes/EditarEmpleados";
 import React, { useState, useEffect } from "react";
 
 function ConsultarEmpleados() {
   const [empleados, setEmpleados] = useState([]);
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
 
   useEffect(() => {
     // Simulación de una llamada a una API para obtener los datos de los empleados
@@ -86,13 +96,17 @@ function ConsultarEmpleados() {
         </tbody>
       </table>
       <div>
-        <button className="border border-negro rounded-[25px] bg-azul p-1 m-5 w-40">
+        <button
+          className="border border-negro rounded-[25px] bg-azul p-1 m-5 w-40"
+          onClick={handleOpenEdit}
+        >
           Editar
         </button>
         <button className="border border-negro rounded-[25px] bg-red-400 p-1 mt5 w-40">
           Eliminar
         </button>
       </div>
+      {openEdit && <EditarEmpleados onClose={handleCloseEdit} />}
     </div>
   );
 }
