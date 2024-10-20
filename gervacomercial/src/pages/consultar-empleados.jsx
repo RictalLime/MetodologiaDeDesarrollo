@@ -1,5 +1,6 @@
-import EditarEmpleados from "@/componentes/EditarEmpleados";
 import React, { useState, useEffect } from "react";
+import EditarEmpleados from "@/componentes/EditarEmpleados";
+import { supabaseClient } from "@/utils/supabase";
 
 function ConsultarEmpleados() {
   const [empleados, setEmpleados] = useState([]);
@@ -14,43 +15,20 @@ function ConsultarEmpleados() {
   };
 
   useEffect(() => {
-    // Simulación de una llamada a una API para obtener los datos de los empleados
-    const fetchEmpleados = async () => {
-      const data = [
-        {
-          id: 1,
-          nombre: "Juan Pérez",
-          sueldoBase: 1000,
-          comision: 10,
-          total: 10000,
-        },
-        {
-          id: 2,
-          nombre: "María López",
-          sueldoBase: 1200,
-          comision: 15,
-          total: 18000,
-        },
-        {
-          id: 3,
-          nombre: "Pedro Gómez",
-          sueldoBase: 1500,
-          comision: 20,
-          total: 30000,
-        },
-        {
-          id: 4,
-          nombre: "Jose Martinez",
-          sueldoBase: 2000,
-          comision: 25,
-          total: 50000,
-        },
-      ];
-      setEmpleados(data);
-    };
-
     fetchEmpleados();
   }, []);
+
+  const fetchEmpleados = async () => {
+    let { data: empleados, error } = await supabaseClient
+      .from("usuario")
+      .select("*");
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(empleados);
+      setEmpleados(empleados);
+    }
+  };
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
@@ -65,32 +43,22 @@ function ConsultarEmpleados() {
           />
         </div>
       </div>
-      <div className="w-full md:w-[80vw] flex bg-azul border border-negro rounded-[20px]">
-        <h1 className="w-[5%] border-r flex flex-col items-center font-semibold text-lg p-2">
-          Id
-        </h1>
-        <h1 className="w-[47%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Nombre
-        </h1>
-        <h1 className="w-[17%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Sueldo Base
-        </h1>
-        <h1 className="w-[10%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Comisión
-        </h1>
-        <h1 className="w-[21%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Total
-        </h1>
-      </div>
-      <table className="w-full md:w-[80vw] mt-5">
+      <table className="w-full md:w-[80vw] mt-5 rounded-tl-[25px]">
+        <thead>
+          <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
+            <th className="rounded-tl-[25px]">Nombre</th>
+            <th>Rol</th>
+            <th className="rounded-tr-[25px]">Sueldo base</th>
+          </tr>
+        </thead>
         <tbody>
           {empleados.map((empleado) => (
             <tr key={empleado.id} className="hover:bg-azul">
-              <td className="border border-negro font-bold">{empleado.id}</td>
               <td className="border border-negro">{empleado.nombre}</td>
-              <td className="border border-negro">{empleado.sueldoBase}</td>
-              <td className="border border-negro">{empleado.comision}</td>
-              <td className="border border-negro">{empleado.total}</td>
+              <td className="border border-negro">
+                {empleado.rol == "1" ? "Admin" : "Empleado"}
+              </td>
+              <td className="border border-negro">{empleado.sueldobase}</td>
             </tr>
           ))}
         </tbody>

@@ -1,42 +1,13 @@
 import React from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, roles } from "@/Schemas/LoginSchema";
-
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-
-// const { data, error } = await supabase
-//   .from('talla')
-//   .insert({nombre: "grande"})
-//   .select()
-
-{
-  /*const { data, error } = await supabase
-  .from("producto")
-  .insert({
-    modelo: "prueba",
-    marca: "prueba",
-    precio: 180.0,
-    color: "blanco",
-    tallaid: 5,
-    disponibles: 200,
-  })
-  .select();
-  */
-}
-
-// const { data, error } = await supabase
-//   .from('producto')
-//   .delete()
-//   .eq("id", 1)
+import { supabaseClient } from "@/utils/supabase";
 
 function Home() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -45,8 +16,17 @@ function Home() {
     resolver: zodResolver(LoginSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
     console.log(data);
+    if (error) {
+      console.log(error);
+    } else {
+      router.push("/consultar-empleados");
+    }
   };
 
   return (
