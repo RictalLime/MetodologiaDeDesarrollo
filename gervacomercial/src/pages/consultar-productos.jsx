@@ -5,14 +5,7 @@ import { supabaseClient } from "@/utils/supabase";
 function ConsultarProductos() {
   const [productos, setProductos] = useState([]);
   const [openEdit, setOpenEdit] = useState(false);
-
-  const handleOpenEdit = () => {
-    setOpenEdit(true);
-  };
-
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
+  const [selectedProducto, setSelectedProducto] = useState(null);
 
   useEffect(() => {
     fetchProductos();
@@ -26,6 +19,7 @@ function ConsultarProductos() {
         precio,
         color,
         talla,
+        disponibles,
         modelo (
           id,
           nombre,
@@ -38,8 +32,30 @@ function ConsultarProductos() {
     if (error) {
       console.error(error);
     } else {
-      console.log(productos);
       setProductos(productos);
+    }
+  };
+
+  const handleOpenEdit = (producto) => {
+    setSelectedProducto(producto);
+    setOpenEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+    setSelectedProducto(null);
+  };
+
+  const handleDelete = async (productoId) => {
+    const { error } = await supabaseClient
+      .from("producto")
+      .delete()
+      .eq("id", productoId);
+
+    if (error) {
+      console.error(error);
+    } else {
+      fetchProductos();
     }
   };
 
@@ -64,7 +80,9 @@ function ConsultarProductos() {
             <th>Modelo</th>
             <th>Color</th>
             <th>Talla</th>
-            <th className="rounded-tr-[25px]">Precio</th>
+            <th>Precio</th>
+            <th>Disponibles</th>
+            <th className="rounded-tr-[25px]">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -78,22 +96,32 @@ function ConsultarProductos() {
               <td className="border border-negro">{producto.color}</td>
               <td className="border border-negro">{producto.talla}</td>
               <td className="border border-negro">{producto.precio}</td>
+              <td className="border border-negro">{producto.disponibles}</td>
+              <td className="border border-negro flex">
+                <button
+                  className="border border-negro rounded-[25px] bg-azul p-1 m-1"
+                  onClick={() => handleOpenEdit(producto)}
+                >
+                  Editar
+                </button>
+                <button
+                  className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
+                  onClick={() => handleDelete(producto.id)}
+                >
+                  Eliminar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div>
-        <button
-          className="border border-negro rounded-[25px] bg-azul p-1 m-5 w-40"
-          onClick={handleOpenEdit}
-        >
-          Editar
-        </button>
-        <button className="border border-negro rounded-[25px] bg-red-400 p-1 mt5 w-40">
-          Eliminar
-        </button>
-      </div>
-      {openEdit && <EditarProductos onClose={handleCloseEdit} />}
+      {openEdit && (
+        <EditarProductos
+          onClose={handleCloseEdit}
+          producto={selectedProducto}
+          onUpdate={fetchProductos}
+        />
+      )}
     </div>
   );
 }

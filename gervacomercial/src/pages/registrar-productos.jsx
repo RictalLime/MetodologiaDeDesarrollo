@@ -111,8 +111,9 @@ function RegistrarProductos() {
         <div className="flex flex-col w-[484px]">
           <label className="text-[20px]">Talla</label>
           <input
+            type="number"
             className="border border-negro rounded-[25px] py-2 px-4"
-            {...register("talla")}
+            {...register("talla", { valueAsNumber: true })}
             name="talla"
           />
           {errors.talla && (
