@@ -44,7 +44,7 @@ function Home() {
             Correo Eléctronico o nombre de usuario
           </label>
           <input
-            className="border-2 border-negro rounded-[25px] pl-2"
+            className="border-2 border-negro rounded-[25px] py-2 px-4"
             type="text"
             name="email"
             id="emailInput"
@@ -57,7 +57,7 @@ function Home() {
         <div className="mb-2 flex flex-col">
           <label className="text-lg font-bold">Contraseña</label>
           <input
-            className="border-2 border-negro rounded-[25px] pl-2"
+            className="border-2 border-negro rounded-[25px] py-2 px-4"
             type="password"
             {...register("password")}
           />
