@@ -19,44 +19,41 @@ function RegistrarVenta(){
   };
 
   useEffect(() => {
-    const fetchProductos = async () => {
-      const data = [
-        {
-          id: 1,
-          cantidad: "1",
-          producto: "Zapato",
-          modelo: "Oxford",
-          precio: 1200,
-          total: "0",
-        },
-        {
-          id: 2,
-          cantidad: "2",
-          producto: "Tenis",
-          modelo: "Sport",
-          precio: 1400,
-          total: "0",
-        },
-      ];
-      setProductos(data);
-    };
     fetchProductos();
   }, []);
 
-
-  const fetchProductoPorId = async (codigo) => {
-    const { data, error } = await supabaseClient
-      .from("productos")
-      .select("*")
-      .eq("id", codigo)
-      .single(); // Recupera solo un producto
-
+  const fetchProductos = async () => {
+    let { data: productos, error } = await supabaseClient.from("producto")
+      .select(`
+        id,
+        nombre,
+        precio,
+        color,
+        talla,
+        disponibles,
+        modelo (
+          id,
+          nombre,
+          marca (
+            id,
+            nombre
+          )
+        )
+      `);
     if (error) {
-      console.error("Error al buscar producto:", error);
-      return null;
+      console.error(error);
+    } else {
+      setProductos(productos);
     }
-    return data;
   };
+
+
+  /*const fetchProductoPorId = async () => {
+    const { data: productos, error } = await supabaseClient
+    .from('producto')
+    .select('id')
+  };
+  */
 
   const agregarProducto = async (e) => {
     if (e.key === "Enter") {
@@ -70,7 +67,7 @@ function RegistrarVenta(){
   };
 
   const registrarVenta = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("ventas")
       .insert([
         {
@@ -141,7 +138,7 @@ function RegistrarVenta(){
           <td className="border border-negro">{producto.id}</td>
           <td className="border border-negro">{producto.cantidad}</td>
           <td className="border border-negro">{producto.producto}</td>
-          <td className="border border-negro">{producto.modelo}</td>
+          <td className="border border-negro">{producto.modelo.nombre}</td>
           <td className="border border-negro">{producto.precio}</td>
           <td className="border border-negro">{producto.total}</td>
           <td className="border border-negro">
