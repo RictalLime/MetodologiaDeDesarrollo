@@ -47,7 +47,7 @@ function ConsultarProductos() {
           <img src="/assets/search.svg" alt="" />
           <input
             type="text"
-            placeholder="Busca un empleado"
+            placeholder="Busca un producto"
             className="rounded-tr-[20px] rounded-br-[20px] p-2"
           />
         </div>
