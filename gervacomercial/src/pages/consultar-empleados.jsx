@@ -56,7 +56,7 @@ function ConsultarEmpleados() {
             <tr key={empleado.id} className="hover:bg-azul">
               <td className="border border-negro">{empleado.nombre}</td>
               <td className="border border-negro">
-                {empleado.rol == "1" ? "Admin" : "Empleado"}
+                {empleado.rol == "1" ? "Admin" : "Vendedor"}
               </td>
               <td className="border border-negro">{empleado.sueldobase}</td>
             </tr>
