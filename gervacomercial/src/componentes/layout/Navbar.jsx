@@ -57,7 +57,7 @@ function Navbar() {
             Lista de empleados
           </Link>
           <Link
-            href={"/RegistrarProductos"}
+            href={"/registrar-venta"}
             className="text-lg underline underline-offset-1 mb-2"
             onClick={handleCloseMenu}
           >
