@@ -13,7 +13,6 @@ function RegistrarEmpleados() {
 
   const getRoles = async () => {
     let { data: rol, error } = await supabaseClient.from("rol").select("*");
-    console.log(rol);
     if (error) {
       console.log(error);
     } else {
@@ -48,9 +47,14 @@ function RegistrarEmpleados() {
             apellidop: formData.apellidop,
             apellidom: formData.apellidom,
             correo: formData.correo,
+            contrasenia: formData.contrasenia,
             rfc: formData.rfc,
             sueldobase: formData.sueldobase,
             rolid: formData.rol,
+            calle: formData.calle,
+            numero: formData.numero,
+            cp: formData.cp,
+            ciudad: formData.ciudad,
           },
         ])
         .select();
@@ -65,10 +69,10 @@ function RegistrarEmpleados() {
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center bg-white text-black p-20">
-      <h1 className="text-4xl">Crear empleados</h1>
+      <h1 className="text-4xl">Registrar empleados</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-[360px]"
+        className="flex flex-col w-[484px]"
       >
         <div className="flex flex-col mt-5">
           <label htmlFor="username" className="font-bold">
@@ -178,6 +182,7 @@ function RegistrarEmpleados() {
             name="rol"
             {...register("rol")}
           >
+            <option value="">Elige un rol</option>
             {roles?.map((rol) => (
               <option key={rol.id} value={rol.id}>
                 {rol.nombre}
@@ -186,6 +191,62 @@ function RegistrarEmpleados() {
           </select>
           {errors.rol && (
             <span className="text-red-500">{errors.rol.message}</span>
+          )}
+        </div>
+        <div className="flex flex-col mt-5">
+          <label htmlFor="username" className="font-bold">
+            Calle
+          </label>
+          <input
+            type="text"
+            name="calle"
+            className=" border rounded-[25px] border-black py-2 px-4"
+            {...register("calle")}
+          />
+          {errors.calle && (
+            <span className="text-red-500">{errors.calle.message}</span>
+          )}
+        </div>
+        <div className="flex flex-col mt-5">
+          <label htmlFor="username" className="font-bold">
+            Numero de casa
+          </label>
+          <input
+            type="number"
+            name="numero"
+            className=" border rounded-[25px] border-black py-2 px-4"
+            {...register("numero", { valueAsNumber: true })}
+          />
+          {errors.numero && (
+            <span className="text-red-500">{errors.numero.message}</span>
+          )}
+        </div>
+        <div className="flex flex-col mt-5">
+          <label htmlFor="username" className="font-bold">
+            Código postal
+          </label>
+          <input
+            type="text"
+            name="cp"
+            className=" border rounded-[25px] border-black py-2 px-4"
+            {...register("cp")}
+          />
+          {errors.cp && (
+            <span className="text-red-500">{errors.cp.message}</span>
+          )}
+        </div>
+        <div className="flex flex-col mt-5">
+          <label htmlFor="username" className="font-bold">
+            Ciudad
+          </label>
+          <input
+            type="text"
+            name="ciudad"
+            className=" border rounded-[25px] border-black py-2 px-4"
+            {...register("ciudad")}
+          />
+          {errors.ciudad && (
+            <span className="text-red-500">{errors.ciudad.message}</span>
           )}
         </div>
         <button
