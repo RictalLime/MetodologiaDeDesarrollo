@@ -13,6 +13,7 @@ function RegistrarEmpleados() {
 
   const getRoles = async () => {
     let { data: rol, error } = await supabaseClient.from("rol").select("*");
+    console.log(rol);
     if (error) {
       console.log(error);
     } else {
