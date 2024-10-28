@@ -1,96 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { RegistrerSell } from "@/Schemas/RegistrerSell";
-import { supabaseClient } from "@/utils/supabase";
+import { useState } from 'react';
+import { supabaseClient } from '@/utils/supabase';
 
-
-function RegistrarVenta(){
+export function RegistrarVenta() {
   const [productos, setProductos] = useState([]);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [codigoProducto, setCodigoProducto] = useState("");
+  const [codigoProducto, setCodigoProducto] = useState('');
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const [valorTotal, setValorTotal] = useState(0);
 
-  const handleOpenEdit = () => {
-    setOpenEdit(true);
-  };
+  const agregarProducto = async () => {
+    if (!codigoProducto) return;
 
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
-
-  useEffect(() => {
-    fetchProductos();
-  }, []);
-
-  const fetchProductos = async () => {
-    let { data: productos, error } = await supabaseClient.from("producto")
-      .select(`
-        id,
-        nombre,
-        precio,
-        color,
-        talla,
-        disponibles,
-        modelo (
-          id,
-          nombre,
-          marca (
-            id,
-            nombre
-          )
-        )
-      `);
-    if (error) {
-      console.error(error);
-    } else {
-      setProductos(productos);
-    }
-  };
-
-
-  /*const fetchProductoPorId = async () => {
-    const { data: productos, error } = await supabaseClient
-    .from('producto')
-    .select('id')
-  };
-  */
-
-  const agregarProducto = async (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const producto = await fetchProductoPorId(codigoProducto);
-      if (producto) {
-        setProductos([...productos, { ...producto, total: producto.precio }]);
-        setCodigoProducto(""); // Limpiar el input
-      }
-    }
-  };
-
-  const registrarVenta = async () => {
+    // Buscar el producto en la base de datos
     const { data, error } = await supabaseClient
-      .from("ventas")
-      .insert([
-        {
-          productos: productos.map((p) => ({
-            id: p.id,
-            cantidad: p.cantidad,
-            total: p.total,
-          })),
-          total: productos.reduce((acc, p) => acc + p.total, 0),
-          cajero: "José Angel",
-        },
-      ]);
+      .from('productos')
+      .select('*')
+      .eq('id', codigoProducto)
+      .single();
 
     if (error) {
-      console.error("Error al registrar la venta:", error);
-    } else {
-      console.log("Venta registrada con éxito:", data);
-      setProductos([]); // Limpiar la tabla después de registrar
+      console.error('Error al buscar el producto:', error);
+      return;
+    }
+
+    if (data) {
+      // Agregar el producto a la lista de productos
+      setProductos((prevProductos) => [...prevProductos, data]);
+      setCantidadTotal((prevCantidad) => prevCantidad + 1);
+      setValorTotal((prevTotal) => prevTotal + data.precio);
+      setCodigoProducto(''); // Limpiar el campo de búsqueda
     }
   };
-
 
     return (
       <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
@@ -131,10 +70,10 @@ function RegistrarVenta(){
       <tbody>
         {productos.map((producto) => (
         <tr key={producto.id} className="hover:bg-azul">
-          <td className="border border-negro">{producto.id}</td>
-          <td className="border border-negro">{producto.modelo.nombre}</td>
-          <td className="border border-negro">{producto.precio}</td>
-          <td className="border border-negro">{producto.total}</td>
+          <td className="border border-negro">{}</td>
+          <td className="border border-negro">{}</td>
+          <td className="border border-negro">{}</td>
+          <td className="border border-negro">{}</td>
           <td className="border border-negro">
             <button onClick={() => setProductos(productos.filter(p => p.id !== producto.id))}>
             <img src="/delete.svg" alt="Eliminar producto"/>
@@ -155,7 +94,7 @@ function RegistrarVenta(){
       <div>
       <button
           className="border border-negro rounded-[25px] bg-azul p-1 w-40"
-          onClick={registrarVenta}
+          onClick={RegistrarVenta}
         >
           Registrar
         </button>
@@ -166,7 +105,6 @@ function RegistrarVenta(){
           Cancelar
         </button>
       </div>
-      {openEdit && <EditarProductos onClose={handleCloseEdit} />}
       </div>
       );
 }
