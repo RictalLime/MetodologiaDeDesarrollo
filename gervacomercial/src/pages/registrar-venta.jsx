@@ -112,12 +112,6 @@ function RegistrarVenta(){
       <h1 className="w-[4%] border-r flex flex-col items-center font-semibold text-lg p-2">
         Id
       </h1>
-      <h1 className="w-[22%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-        Cantidad
-      </h1>
-      <h1 className="w-[15%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-        Producto
-      </h1>
       <h1 className="w-[18%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
         Modelo
       </h1>
@@ -136,8 +130,6 @@ function RegistrarVenta(){
         {productos.map((producto) => (
         <tr key={producto.id} className="hover:bg-azul">
           <td className="border border-negro">{producto.id}</td>
-          <td className="border border-negro">{producto.cantidad}</td>
-          <td className="border border-negro">{producto.producto}</td>
           <td className="border border-negro">{producto.modelo.nombre}</td>
           <td className="border border-negro">{producto.precio}</td>
           <td className="border border-negro">{producto.total}</td>
