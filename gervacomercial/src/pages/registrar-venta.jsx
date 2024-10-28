@@ -9,6 +9,8 @@ function RegistrarVenta(){
   const [productos, setProductos] = useState([]);
   const [openEdit, setOpenEdit] = useState(false);
   const [codigoProducto, setCodigoProducto] = useState("");
+  const [cantidadTotal, setCantidadTotal] = useState(0);
+  const [valorTotal, setValorTotal] = useState(0);
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
