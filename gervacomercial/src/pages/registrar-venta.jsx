@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabaseClient } from '@/utils/supabase';
 
 export function RegistrarVenta() {
@@ -7,29 +7,59 @@ export function RegistrarVenta() {
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const [valorTotal, setValorTotal] = useState(0);
 
+  useEffect(() => {
+    fetchProductos();
+  }, []);
+
+  const fetchProductos = async () => {
+    let { data: productos, error } = await supabaseClient.from("producto")
+      .select(`
+        id,
+        nombre,
+        precio,
+        color,
+        talla,
+        disponibles,
+        modelo (
+          id,
+          nombre,
+          marca (
+            id,
+            nombre
+          )
+        )
+      `);
+    if (error) {
+      console.error(error);
+    } else {
+      setProductos(productos);
+    }
+  };
+};
+
   const agregarProducto = async () => {
     if (!codigoProducto) return;
 
-    // Buscar el producto en la base de datos
-    const { data, error } = await supabaseClient
-      .from('productos')
-      .select('*')
-      .eq('id', codigoProducto)
-      .single();
+  // Realiza la consulta para obtener el producto por el código ingresado
+  let { data, error } = await supabaseClient
+    .from("producto")
+    .select("*")
+    .eq("codigo", codigoProducto)
+    .single();
 
-    if (error) {
-      console.error('Error al buscar el producto:', error);
-      return;
-    }
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-    if (data) {
-      // Agregar el producto a la lista de productos
-      setProductos((prevProductos) => [...prevProductos, data]);
-      setCantidadTotal((prevCantidad) => prevCantidad + 1);
-      setValorTotal((prevTotal) => prevTotal + data.precio);
-      setCodigoProducto(''); // Limpiar el campo de búsqueda
-    }
-  };
+  if (data) {
+    // Agregar el producto a la lista de productos
+    setProductos((prevProductos) => [...prevProductos, data]);
+    setCantidadTotal((prevCantidad) => prevCantidad + 1);
+    setValorTotal((prevTotal) => prevTotal + data.precio);
+    setCodigoProducto(''); // Limpiar el campo de búsqueda
+  }
+  
 
     return (
       <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
