@@ -57,22 +57,15 @@ export function RegistrarVenta() {
           />
         </div>
       </div>
-      <div className="w-full md:w-[80vw] flex bg-azul border border-negro rounded-[20px]">
-        <h1 className="w-[4%] border-r flex flex-col items-center font-semibold text-lg p-2">
-          Id
-        </h1>
-        <h1 className="w-[18%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Modelo
-        </h1>
-        <h1 className="w-[14%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Precio
-        </h1>
-        <h1 className="w-[20%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2">
-          Total
-        </h1>
-        <h1 className="w-[10%] border-l border-negro flex flex-col items-center font-semibold text-lg p-2"></h1>
-      </div>
       <table className="w-full md:w-[80vw] mt-5">
+        <thead>
+          <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
+            <th className="rounded-tl-[25px]">Id</th>
+            <th>Modelo</th>
+            <th>Precio</th>
+            <th className="rounded-tr-[25px]">Acciones</th>
+          </tr>
+        </thead>
         <tbody>
           {productos.map((producto) => (
             <tr key={producto.id} className="hover:bg-azul">
