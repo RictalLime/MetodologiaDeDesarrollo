@@ -85,49 +85,55 @@ function ConsultarProductos() {
           />
         </div>
       </div>
-      <table className="w-full md:w-[80vw] mt-5">
-        <thead>
-          <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
-            <th className="rounded-tl-[25px]">Nombre</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Color</th>
-            <th>Talla</th>
-            <th>Precio</th>
-            <th>Disponibles</th>
-            <th className="rounded-tr-[25px]">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productos?.map((producto) => (
-            <tr key={producto.id} className="hover:bg-azul">
-              <td className="border border-negro">{producto.nombre}</td>
-              <td className="border border-negro">
-                {producto.modelo.marca.nombre}
-              </td>
-              <td className="border border-negro">{producto.modelo.nombre}</td>
-              <td className="border border-negro">{producto.color}</td>
-              <td className="border border-negro">{producto.talla}</td>
-              <td className="border border-negro">{producto.precio}</td>
-              <td className="border border-negro">{producto.disponibles}</td>
-              <td className="border border-negro flex">
-                <button
-                  className="border border-negro rounded-[25px] bg-azul p-1 m-1"
-                  onClick={() => handleOpenEdit(producto)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
-                  onClick={() => openDeleteConfirmation(producto.id)}
-                >
-                  Eliminar
-                </button>
-              </td>
+      <div className="w-full overflow-x-auto">
+        <table className="w-full md:w-[80vw] mt-5">
+          <thead>
+            <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
+              <th className="rounded-tl-[25px]">Nombre</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Color</th>
+              <th>Talla</th>
+              <th>Precio</th>
+              <th>Disponibles</th>
+              <th className="rounded-tr-[25px]">Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {productos?.map((producto) => (
+              <tr key={producto.id} className="hover:bg-azul">
+                <td className="border border-negro p-2">{producto.nombre}</td>
+                <td className="border border-negro p-2">
+                  {producto.modelo.marca.nombre}
+                </td>
+                <td className="border border-negro p-2">
+                  {producto.modelo.nombre}
+                </td>
+                <td className="border border-negro p-2">{producto.color}</td>
+                <td className="border border-negro p-2">{producto.talla}</td>
+                <td className="border border-negro p-2">{producto.precio}</td>
+                <td className="border border-negro p-2">
+                  {producto.disponibles}
+                </td>
+                <td className="border border-negro flex">
+                  <button
+                    className="border border-negro rounded-[25px] bg-azul p-1 m-1"
+                    onClick={() => handleOpenEdit(producto)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
+                    onClick={() => openDeleteConfirmation(producto.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {openEdit && (
         <EditarProductos
           onClose={handleCloseEdit}
