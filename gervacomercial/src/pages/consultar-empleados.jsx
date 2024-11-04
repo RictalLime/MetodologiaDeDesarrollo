@@ -72,54 +72,66 @@ function ConsultarEmpleados() {
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
-      <div className="flex w-[80vw] justify-between mb-5">
+      <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
         <h1 className="text-4xl font-bold">Lista de empleados</h1>
         <div className="border border-negro rounded-[20px] flex">
-          <img src="/assets/search.svg" alt="Buscar" />
+          <img src="/assets/search.svg" alt="Buscar" className="w-10" />
           <input
             type="text"
             placeholder="Busca un empleado"
-            className="rounded-tr-[20px] rounded-br-[20px] p-2"
+            className="rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]"
           />
         </div>
       </div>
-      <table className="w-full md:w-[80vw] mt-5 rounded-tl-[25px]">
-        <thead>
-          <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
-            <th className="rounded-tl-[25px]">Nombre</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Sueldo base</th>
-            <th className="rounded-tr-[25px]">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {empleados.map((empleado) => (
-            <tr key={empleado.id} className="hover:bg-azul">
-              <td className="border border-negro">{empleado.nombre}</td>
-              <td className="border border-negro">{empleado.correo}</td>
-              <td className="border border-negro">
-                {getRolNombre(empleado.rolid)}
-              </td>
-              <td className="border border-negro">{empleado.sueldobase}</td>
-              <td className="border border-negro">
-                <button
-                  className="border border-negro rounded-[25px] bg-azul p-1 m-1"
-                  onClick={() => handleOpenEdit(empleado)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
-                  onClick={() => confirmDelete(empleado.id)}
-                >
-                  Eliminar
-                </button>
-              </td>
+      <div className="w-full overflow-x-auto">
+        <table className="w-full md:w-[80vw] mt-5 rounded-tl-[25px]">
+          <thead>
+            <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
+              <th className="rounded-tl-[25px]">Nombre</th>
+              <th>Apellido Paterno</th>
+              <th>Apellido Materno</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Sueldo base</th>
+              <th className="rounded-tr-[25px]">Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {empleados.map((empleado) => (
+              <tr key={empleado.id} className="hover:bg-azul">
+                <td className="border border-negro p-2">{empleado.nombre}</td>
+                <td className="border border-negro p-2">
+                  {empleado.apellidop}
+                </td>
+                <td className="border border-negro p-2">
+                  {empleado.apellidom}
+                </td>
+                <td className="border border-negro p-2">{empleado.correo}</td>
+                <td className="border border-negro p-2">
+                  {getRolNombre(empleado.rolid)}
+                </td>
+                <td className="border border-negro p-2">
+                  {empleado.sueldobase}
+                </td>
+                <td className="border border-negro">
+                  <button
+                    className="border border-negro rounded-[25px] bg-azul p-1 m-1"
+                    onClick={() => handleOpenEdit(empleado)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
+                    onClick={() => confirmDelete(empleado.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {openEdit && (
         <EditarEmpleados
           onClose={handleCloseEdit}
