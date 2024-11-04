@@ -14,17 +14,17 @@ function Navbar() {
 
   return (
     <div>
-      <div className="w-screen h-20 bg-azul flex justify-center relative">
+      <div className="w-screen h-20 bg-azul flex justify-center">
         <img
           src="/menu.svg"
           alt=""
-          className="w-10 absolute left-10 top-10 cursor-pointer"
+          className="w-10 cursor-pointer"
           onClick={handleOpenMenu}
         />
         <img src="/logoGerva.svg" alt="" className="w-40 h-20" />
       </div>
       {openMenu && (
-        <div className="w-[300px] flex flex-col absolute bg-white p-5 border border-black rounded-[25px]">
+        <div className="w-[300px] flex flex-col bg-white p-5 border border-black rounded-[25px]">
           <p className="cursor-pointer font-bold" onClick={handleCloseMenu}>
             X
           </p>
