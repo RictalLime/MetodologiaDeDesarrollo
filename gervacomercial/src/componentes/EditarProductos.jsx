@@ -98,14 +98,14 @@ function EditarProductos({ onClose, producto, onUpdate }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-negro bg-opacity-50 w-screen h-screen">
-      <div className="flex flex-col items-center rounded-[20px] w-[356px] md:w-[484px] h-[500px] overflow-y-auto bg-blanco text-negro">
-        <h1 className="text-[64px]">Editar Producto</h1>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="flex flex-col items-center rounded-[20px] w-[90%] md:w-[484px] bg-white text-negro p-5 max-h-[80vh] overflow-y-auto">
+        <h1 className="text-4xl">Editar Producto</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center px-20"
+          className="flex flex-col items-center px-4 w-full"
         >
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label form="user" className="text-[20px]">
               Nombre
             </label>
@@ -118,7 +118,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.nombre.message}</span>
             )}
           </div>
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="text-[20px]">Talla</label>
             <input
               type="number"
@@ -130,7 +130,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.talla.message}</span>
             )}
           </div>
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="text-[20px]">Precio</label>
             <input
               type="number"
@@ -142,7 +142,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.precio.message}</span>
             )}
           </div>
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="text-[20px]">Disponibles</label>
             <input
               type="number"
@@ -154,7 +154,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.disponibles.message}</span>
             )}
           </div>
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="text-[20px]">Marca</label>
             <select
               className="border border-negro rounded-[25px] py-2 px-4"
@@ -172,7 +172,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.marca.message}</span>
             )}
           </div>
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="text-[20px]">Modelo</label>
             <select
               className="border border-negro rounded-[25px] py-2 px-4"
@@ -189,7 +189,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.modelo.message}</span>
             )}
           </div>
-          <div className="flex flex-col w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="text-[20px]">Color</label>
             <input
               className="border border-negro rounded-[25px] py-2 px-4"
@@ -200,16 +200,16 @@ function EditarProductos({ onClose, producto, onUpdate }) {
               <span className="text-red-500">{errors.color.message}</span>
             )}
           </div>
-          <div className="mt-10">
+          <div className="flex mt-5">
             <button
-              className="border border-negro bg-green-300 rounded-[25px] px-5 py-2 mr-5"
+              className="border border-negro bg-green-300 rounded-[25px] px-10 py-2 mr-5"
               type="submit"
             >
               Aceptar
             </button>
             <button
               onClick={onClose}
-              className="border border-negro bg-green-300 rounded-[25px] px-5 py-2"
+              className="border border-negro bg-green-300 rounded-[25px] px-10 py-2"
             >
               Cancelar
             </button>

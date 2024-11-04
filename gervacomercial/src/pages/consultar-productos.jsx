@@ -6,6 +6,8 @@ function ConsultarProductos() {
   const [productos, setProductos] = useState([]);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [productoIdToDelete, setProductoIdToDelete] = useState(null);
 
   useEffect(() => {
     fetchProductos();
@@ -46,17 +48,28 @@ function ConsultarProductos() {
     setSelectedProducto(null);
   };
 
-  const handleDelete = async (productoId) => {
+  const openDeleteConfirmation = (productoId) => {
+    setProductoIdToDelete(productoId);
+    setOpenDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setOpenDeleteModal(false);
+    setProductoIdToDelete(null);
+  };
+
+  const handleDelete = async () => {
     const { error } = await supabaseClient
       .from("producto")
       .delete()
-      .eq("id", productoId);
+      .eq("id", productoIdToDelete);
 
     if (error) {
       console.error(error);
     } else {
       fetchProductos();
     }
+    closeDeleteModal();
   };
 
   return (
@@ -106,7 +119,7 @@ function ConsultarProductos() {
                 </button>
                 <button
                   className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
-                  onClick={() => handleDelete(producto.id)}
+                  onClick={() => openDeleteConfirmation(producto.id)}
                 >
                   Eliminar
                 </button>
@@ -121,6 +134,29 @@ function ConsultarProductos() {
           producto={selectedProducto}
           onUpdate={fetchProductos}
         />
+      )}
+      {openDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded-lg">
+            <p className="text-lg font-semibold mb-4">
+              ¿Seguro que quieres eliminarlo?
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="bg-gray-400 border border-negro rounded-[25px] text-white px-4 py-2 mr-2"
+                onClick={closeDeleteModal}
+              >
+                Cancelar
+              </button>
+              <button
+                className="bg-red-500 border border-negro rounded-[25px] text-white px-4 py-2"
+                onClick={handleDelete}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

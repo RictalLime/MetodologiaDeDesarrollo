@@ -77,14 +77,14 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-negro bg-opacity-50 w-screen h-screen">
-      <div className="flex flex-col items-center rounded-[20px] w-[356px] md:w-[484px] h-[500px] overflow-y-auto bg-blanco text-negro">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="flex flex-col items-center rounded-[20px] w-[90%] md:w-[484px] bg-white text-negro p-5 max-h-[80vh] overflow-y-auto">
         <h1 className="text-4xl">Editar empleados</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center px-20"
+          className="flex flex-col items-center w-full"
         >
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label className="font-bold">Nombre</label>
             <input
               type="text"
@@ -97,7 +97,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.nombre.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Apellido paterno
             </label>
@@ -111,7 +111,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.apellidop.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Apellido materno
             </label>
@@ -125,7 +125,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.apellidom.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Correo
             </label>
@@ -139,7 +139,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.correo.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Contraseña
             </label>
@@ -153,7 +153,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.contrasenia.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               RFC
             </label>
@@ -167,7 +167,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.rfc.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Sueldo por día
             </label>
@@ -182,7 +182,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.sueldobase.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Puesto
             </label>
@@ -202,7 +202,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.rol.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Calle
             </label>
@@ -216,7 +216,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.calle.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Numero de casa
             </label>
@@ -230,7 +230,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.numero.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Código postal
             </label>
@@ -244,7 +244,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.cp.message}</span>
             )}
           </div>
-          <div className="flex flex-col mt-5 w-[484px]">
+          <div className="flex flex-col w-full">
             <label htmlFor="username" className="font-bold">
               Ciudad
             </label>
@@ -258,15 +258,15 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
               <span className="text-red-500">{errors.ciudad.message}</span>
             )}
           </div>
-          <div className="flex mt-5">
+          <div className="mt-5">
             <button
-              className="border border-negro rounded-[25px] bg-green-300 px-5 py-2 mr-5"
+              className="border border-negro rounded-[25px] bg-green-300 px-10 py-2 mr-5"
               type="submit"
             >
               Aceptar
             </button>
             <button
-              className="border border-negro rounded-[25px] bg-green-300 px-5 py-2"
+              className="border border-negro rounded-[25px] bg-green-300 px-10 py-2"
               onClick={onClose}
             >
               Cancelar

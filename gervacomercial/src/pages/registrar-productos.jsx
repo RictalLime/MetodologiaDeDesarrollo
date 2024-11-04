@@ -89,14 +89,14 @@ function RegistrarProductos() {
   };
 
   return (
-    <div className="w-screen flex flex-col items-center p-20 bg-blanco text-negro">
+    <div className="w-screen flex flex-col items-center p-5 md:p-20 bg-blanco text-negro">
       <h1 className="text-[64px]">Registrar Producto</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center"
+        className="flex flex-col items-center w-full md:w-[484px]"
       >
-        <div className="flex flex-col w-[484px]">
-          <label form="user" className="text-[20px]">
+        <div className="flex flex-col mt-5 w-full">
+          <label form="user" className="font-bold text-xl">
             Nombre
           </label>
           <input
@@ -108,8 +108,8 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.nombre.message}</span>
           )}
         </div>
-        <div className="flex flex-col w-[484px]">
-          <label className="text-[20px]">Talla</label>
+        <div className="flex flex-col mt-5 w-full">
+          <label className="font-bold text-xl">Talla</label>
           <input
             type="number"
             className="border border-negro rounded-[25px] py-2 px-4"
@@ -120,8 +120,8 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.talla.message}</span>
           )}
         </div>
-        <div className="flex flex-col w-[484px]">
-          <label className="text-[20px]">Precio</label>
+        <div className="flex flex-col mt-5 w-full">
+          <label className="font-bold text-xl">Precio</label>
           <input
             type="number"
             name="precio"
@@ -132,8 +132,8 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.precio.message}</span>
           )}
         </div>
-        <div className="flex flex-col w-[484px]">
-          <label className="text-[20px]">Disponibles</label>
+        <div className="flex flex-col mt-5 w-full">
+          <label className="font-bold text-xl">Disponibles</label>
           <input
             type="number"
             name="disponibles"
@@ -144,8 +144,8 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.disponibles.message}</span>
           )}
         </div>
-        <div className="flex flex-col w-[484px]">
-          <label className="text-[20px]">Marca</label>
+        <div className="flex flex-col mt-5 w-full">
+          <label className="font-bold text-xl">Marca</label>
           <select
             className="border border-negro rounded-[25px] py-2 px-4"
             {...register("marca")}
@@ -162,8 +162,8 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.marca.message}</span>
           )}
         </div>
-        <div className="flex flex-col w-[484px]">
-          <label className="text-[20px]">Modelo</label>
+        <div className="flex flex-col mt-5 w-full">
+          <label className="font-bold text-xl">Modelo</label>
           <select
             className="border border-negro rounded-[25px] py-2 px-4"
             {...register("modelo")}
@@ -179,8 +179,8 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.modelo.message}</span>
           )}
         </div>
-        <div className="flex flex-col w-[484px]">
-          <label className="text-[20px]">Color</label>
+        <div className="flex flex-col mt-5 w-full">
+          <label className="font-bold text-xl">Color</label>
           <input
             className="border border-negro rounded-[25px] py-2 px-4"
             {...register("color")}
@@ -190,17 +190,12 @@ function RegistrarProductos() {
             <span className="text-red-500">{errors.color.message}</span>
           )}
         </div>
-        <div className="mt-10">
-          <button
-            className="border border-negro bg-green-300 rounded-[25px] px-5 py-2 mr-5"
-            type="submit"
-          >
-            Aceptar
-          </button>
-          <button className="border border-negro bg-green-300 rounded-[25px] px-5 py-2">
-            Cancelar
-          </button>
-        </div>
+        <button
+          className="border border-negro bg-green-300 rounded-[25px] px-10 py-2 mt-10"
+          type="submit"
+        >
+          Aceptar
+        </button>
       </form>
     </div>
   );

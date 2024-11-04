@@ -69,14 +69,14 @@ function RegistrarEmpleados() {
     }
   };
   return (
-    <div className="w-screen h-screen flex flex-col items-center bg-white text-black p-20">
-      <h1 className="text-4xl">Registrar empleados</h1>
+    <div className="w-screen h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
+      <h1 className="text-[64px]">Registrar empleados</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-[484px]"
+        className="flex flex-col items-center w-full md:w-[484px]"
       >
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Nombre de usuario
           </label>
           <input
@@ -89,8 +89,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.nombre.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Apellido paterno
           </label>
           <input
@@ -103,8 +103,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.apellidop.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Apellido materno
           </label>
           <input
@@ -117,8 +117,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.apellidom.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Correo
           </label>
           <input
@@ -131,8 +131,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.correo.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Contraseña
           </label>
           <input
@@ -145,8 +145,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.contrasenia.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             RFC
           </label>
           <input
@@ -159,8 +159,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.rfc.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Sueldo por día
           </label>
           <input
@@ -174,8 +174,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.sueldobase.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Puesto
           </label>
           <select
@@ -194,8 +194,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.rol.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Calle
           </label>
           <input
@@ -208,8 +208,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.calle.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Numero de casa
           </label>
           <input
@@ -222,8 +222,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.numero.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Código postal
           </label>
           <input
@@ -236,8 +236,8 @@ function RegistrarEmpleados() {
             <span className="text-red-500">{errors.cp.message}</span>
           )}
         </div>
-        <div className="flex flex-col mt-5">
-          <label htmlFor="username" className="font-bold">
+        <div className="flex flex-col mt-5 w-full">
+          <label htmlFor="username" className="font-bold text-xl">
             Ciudad
           </label>
           <input
@@ -251,10 +251,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <button
-          className="border rounded-md bg-blue-400 p-1 mt-5"
+          className="border border-negro bg-green-300 rounded-[25px] px-10 py-2 mt-10"
           type="submit"
         >
-          Guardar
+          Aceptar
         </button>
       </form>
     </div>

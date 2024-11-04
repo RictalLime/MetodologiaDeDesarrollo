@@ -7,6 +7,8 @@ function ConsultarEmpleados() {
   const [roles, setRoles] = useState([]);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedEmpleado, setSelectedEmpleado] = useState(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [empleadoToDelete, setEmpleadoToDelete] = useState(null);
 
   useEffect(() => {
     fetchEmpleados();
@@ -20,7 +22,6 @@ function ConsultarEmpleados() {
     if (error) {
       console.error(error);
     } else {
-      console.log(empleados);
       setEmpleados(empleados);
     }
   };
@@ -49,17 +50,24 @@ function ConsultarEmpleados() {
     setSelectedEmpleado(null);
   };
 
-  const handleDelete = async (empleadoId) => {
+  const confirmDelete = (empleadoId) => {
+    setEmpleadoToDelete(empleadoId);
+    setShowConfirmDelete(true);
+  };
+
+  const handleDelete = async () => {
     const { error } = await supabaseClient
       .from("usuario")
       .delete()
-      .eq("id", empleadoId);
+      .eq("id", empleadoToDelete);
 
     if (error) {
       console.error(error);
     } else {
       fetchEmpleados();
     }
+    setShowConfirmDelete(false);
+    setEmpleadoToDelete(null);
   };
 
   return (
@@ -103,7 +111,7 @@ function ConsultarEmpleados() {
                 </button>
                 <button
                   className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
-                  onClick={() => handleDelete(empleado.id)}
+                  onClick={() => confirmDelete(empleado.id)}
                 >
                   Eliminar
                 </button>
@@ -118,6 +126,29 @@ function ConsultarEmpleados() {
           empleado={selectedEmpleado}
           onUpdate={fetchEmpleados}
         />
+      )}
+      {showConfirmDelete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-5 rounded-lg shadow-lg">
+            <p className="text-lg font-semibold mb-4">
+              ¿Seguro que quieres eliminarlo?
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 mr-2 bg-gray-300 rounded"
+                onClick={() => setShowConfirmDelete(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded"
+                onClick={handleDelete}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
