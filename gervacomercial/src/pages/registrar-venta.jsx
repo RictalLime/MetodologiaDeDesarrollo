@@ -42,37 +42,35 @@ export function RegistrarVenta() {
   };
 
   const registrarVenta = async () => {
-    // const userId = await (await supabaseClient.auth.getSession()).data.session.user.id;
+    const userId = localStorage.getItem("userid");
 
-    // console.log(await supabaseClient.auth.getSession());
-    const x = await supabaseClient.auth.getSession();
-
-    console.log(x);
-
+    // Mapear datos relevantes
     const detallesVenta = productos.map(producto => ({
       productoId: producto.id,
       preciounitario: producto.precio.replace(/[^0-9.-]+/g, ""),
       cantidad: 1
     }));
 
+    console.log(detallesVenta)
+
     const { data, error } = await supabaseClient.rpc('registrar_venta', {
       _usuario_id: userId,
       _fecha: new Date().toISOString(),
       _total: parseFloat(valorTotal.replace(/[^0-9.-]+/g, "")),
-      _json: JSON.stringify(detallesVenta)
+      _json: JSON.parse(JSON.stringify(detallesVenta))
     });
 
-    // if (error) {
-    //   console.error('Error al registrar la venta:', error);
-    // } else {
-    //   console.log('Venta registrada con éxito:', data);
-    //   // Aquí puedes agregar la lógica para registrar la venta en la base de datos
-    //   console.log("Venta registrada:", productos);
-    //   // Limpiar la lista de productos después de registrar la venta
-    //   setProductos([]);
-    //   setCantidadTotal(0);
-    //   setValorTotal((valorTotal) => valorTotal = "$0.00");
-    // }
+    if (error) {
+      console.error('Error al registrar la venta:', error);
+    } else {
+      console.log('Venta registrada con éxito:', data);
+      // Aquí puedes agregar la lógica para registrar la venta en la base de datos
+      console.log("Venta registrada:", productos);
+      // Limpiar la lista de productos después de registrar la venta
+      setProductos([]);
+      setCantidadTotal(0);
+      setValorTotal((valorTotal) => valorTotal = "$0.00");
+    }
 
   };
 
