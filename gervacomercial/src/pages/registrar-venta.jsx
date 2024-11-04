@@ -5,7 +5,7 @@ export function RegistrarVenta() {
   const [productos, setProductos] = useState([]);
   const [codigoProducto, setCodigoProducto] = useState("");
   const [cantidadTotal, setCantidadTotal] = useState(0);
-  const [valorTotal, setValorTotal] = useState(0);
+  const [valorTotal, setValorTotal] = useState("$0.00");
 
   const agregarProducto = async () => {
     if (!codigoProducto) return;
@@ -26,18 +26,54 @@ export function RegistrarVenta() {
       // Agregar el producto a la lista de productos
       setProductos((prevProductos) => [...prevProductos, data]);
       setCantidadTotal((prevCantidad) => prevCantidad + 1);
-      setValorTotal((prevTotal) => prevTotal + data.precio);
+      setValorTotal((cantidadTotal) => {
+        const precioValor = parseFloat(data.precio.replace(/[^0-9.-]+/g, ""));
+        const cantidadTotalValor = parseFloat(cantidadTotal.replace(/[^0-9.-]+/g, ""));;
+
+        const nuevoTotal = precioValor + cantidadTotalValor;
+
+        return new Intl.NumberFormat("es-MX", {
+          style: "currency",
+          currency: "MXN",
+        }).format(nuevoTotal);
+      });
       setCodigoProducto(""); // Limpiar el campo de búsqueda
     }
   };
 
   const registrarVenta = async () => {
-    // Aquí puedes agregar la lógica para registrar la venta en la base de datos
-    console.log("Venta registrada:", productos);
-    // Limpiar la lista de productos después de registrar la venta
-    setProductos([]);
-    setCantidadTotal(0);
-    setValorTotal(0);
+    // const userId = await (await supabaseClient.auth.getSession()).data.session.user.id;
+
+    // console.log(await supabaseClient.auth.getSession());
+    const x = await supabaseClient.auth.getSession();
+
+    console.log(x);
+
+    const detallesVenta = productos.map(producto => ({
+      productoId: producto.id,
+      preciounitario: producto.precio.replace(/[^0-9.-]+/g, ""),
+      cantidad: 1
+    }));
+
+    const { data, error } = await supabaseClient.rpc('registrar_venta', {
+      _usuario_id: userId,
+      _fecha: new Date().toISOString(),
+      _total: parseFloat(valorTotal.replace(/[^0-9.-]+/g, "")),
+      _json: JSON.stringify(detallesVenta)
+    });
+
+    // if (error) {
+    //   console.error('Error al registrar la venta:', error);
+    // } else {
+    //   console.log('Venta registrada con éxito:', data);
+    //   // Aquí puedes agregar la lógica para registrar la venta en la base de datos
+    //   console.log("Venta registrada:", productos);
+    //   // Limpiar la lista de productos después de registrar la venta
+    //   setProductos([]);
+    //   setCantidadTotal(0);
+    //   setValorTotal((valorTotal) => valorTotal = "$0.00");
+    // }
+
   };
 
   return (
