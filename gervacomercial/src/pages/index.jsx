@@ -29,25 +29,34 @@ function Home() {
       const access_token = signInData.session.access_token;
       const refresh_token = signInData.session.refresh_token;
 
-      const { data: session, error: sessionError } = await supabaseClient.auth.setSession({
-        access_token,
-        refresh_token
-      });
-      
+      const { data: session, error: sessionError } =
+        await supabaseClient.auth.setSession({
+          access_token,
+          refresh_token,
+        });
+
       const { data: userData, error: userError } = await supabaseClient
-      .from("usuario")
-      .select("*")
-      .eq("correo", data.email)
-      .single();
-      
-      session.session.user = userData
-      console.log(session)
+        .from("usuario")
+        .select("*")
+        .eq("correo", data.email)
+        .single();
+
+      session.session.user = userData;
+      console.log(session);
 
       if (userError) {
         console.log(sessionError);
-        console.log("El usuario no existe en las bases de datos (public y auth)");
+        console.log(
+          "El usuario no existe en las bases de datos (public y auth)"
+        );
       } else {
-        router.push("/consultar-empleados");
+        if (userData.rolid === 1) {
+          router.push("/consultar-empleados");
+        } else if (userData.rolid === 2) {
+          router.push("/registrar-venta");
+        } else {
+          console.log("Rol no reconocido");
+        }
       }
     }
   };
