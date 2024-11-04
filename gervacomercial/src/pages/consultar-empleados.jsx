@@ -67,7 +67,7 @@ function ConsultarEmpleados() {
       <div className="flex w-[80vw] justify-between mb-5">
         <h1 className="text-4xl font-bold">Lista de empleados</h1>
         <div className="border border-negro rounded-[20px] flex">
-          <img src="/assets/search.svg" alt="" />
+          <img src="/assets/search.svg" alt="Buscar" />
           <input
             type="text"
             placeholder="Busca un empleado"
