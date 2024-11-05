@@ -4,12 +4,14 @@ import { supabaseClient } from "@/utils/supabase";
 function ConsultarVentas() {
   const [ventas, setVentas] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [detalleVenta, setDetalleVenta] = useState([]);
   const [openDetalleModal, setOpenDetalleModal] = useState(false);
 
   useEffect(() => {
     fetchVentas();
     fetchUsuarios();
+    fetchProductos();
   }, []);
 
   const fetchVentas = async () => {
@@ -32,9 +34,25 @@ function ConsultarVentas() {
     }
   };
 
+  const fetchProductos = async () => {
+    let { data: productos, error } = await supabaseClient
+      .from("producto")
+      .select("id, nombre");
+    if (error) {
+      console.error(error);
+    } else {
+      setProductos(productos);
+    }
+  };
+
   const getUsuarioNombre = (usuarioId) => {
     const usuario = usuarios.find((u) => u.id === usuarioId);
     return usuario ? usuario.nombre : "Desconocido";
+  };
+
+  const getProductoNombre = (productoId) => {
+    const producto = productos.find((p) => p.id === productoId);
+    return producto ? producto.nombre : "Desconocido";
   };
 
   const handleOpenDetalle = async (folio) => {
@@ -120,7 +138,9 @@ function ConsultarVentas() {
                 {detalleVenta.map((detalle) => (
                   <tr key={detalle.id}>
                     <td className="border p-2">{detalle.folioid}</td>
-                    <td className="border p-2">{detalle.productoid}</td>
+                    <td className="border p-2">
+                      {getProductoNombre(detalle.productoid)}
+                    </td>
                     <td className="border p-2">{detalle.preciounitario}</td>
                     <td className="border p-2">{detalle.cantidad}</td>
                     <td className="border p-2">{detalle.subtotal}</td>
