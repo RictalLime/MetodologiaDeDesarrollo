@@ -68,7 +68,7 @@ function Navbar() {
               Registrar ventas
             </Link>
             <Link
-              href={"/RegistrarProductos"}
+              href={"/consultar-ventas"}
               className="text-lg underline underline-offset-1 mb-2"
               onClick={handleCloseMenu}
             >
