@@ -35,15 +35,18 @@ function Home() {
           refresh_token,
         });
 
+      if (session.user.email === "admin@gerva.com") {
+        router.push("/consultar-empleados");
+      }
+
       const { data: userData, error: userError } = await supabaseClient
         .from("usuario")
         .select("*")
         .eq("correo", data.email)
         .single();
 
-      session.session.user = userData;
-      console.log(session);
-
+      localStorage.setItem("userid", userData.id);
+      
       if (userError) {
         console.log(sessionError);
         console.log(
