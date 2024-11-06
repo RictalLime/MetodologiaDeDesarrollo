@@ -17,31 +17,51 @@ function Home() {
   });
 
   const onSubmit = async (data) => {
-    const { data: signInData, error } =
+    const { data: signInData, error: signInError } =
       await supabaseClient.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
-    if (error) {
-      console.log(error);
+    if (signInError) {
+      console.log(signInError);
     } else {
-      console.log("User signed in:", signInData.user);
-      // Aquí puedes obtener más información del usuario si es necesario
+      const access_token = signInData.session.access_token;
+      const refresh_token = signInData.session.refresh_token;
+
+      const { data: session, error: sessionError } =
+        await supabaseClient.auth.setSession({
+          access_token,
+          refresh_token,
+        });
+
+      if (session.user.email === "admin@gerva.com") {
+        router.push("/consultar-empleados");
+      }
+
       const { data: userData, error: userError } = await supabaseClient
         .from("usuario")
         .select("*")
         .eq("correo", data.email)
         .single();
 
+      localStorage.setItem("userid", userData.id);
+      localStorage.setItem("userrol", userData.rolid);
+      
       if (userError) {
-        console.log(userError);
+        console.log(sessionError);
+        console.log(
+          "El usuario no existe en las bases de datos (public y auth)"
+        );
       } else {
-        console.log("User data:", userData);
-        // Puedes almacenar la información del usuario en el estado o en el contexto si es necesario
+        if (userData.rolid === 1) {
+          router.push("/consultar-empleados");
+        } else if (userData.rolid === 2) {
+          router.push("/registrar-venta");
+        } else {
+          console.log("Rol no reconocido");
+        }
       }
-
-      router.push("/consultar-empleados");
     }
   };
 

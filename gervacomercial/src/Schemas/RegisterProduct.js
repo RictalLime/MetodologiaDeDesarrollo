@@ -4,7 +4,7 @@ export const RegisterProduct = z.object({
   nombre: z
     .string()
     .nonempty("Escribe el nombre")
-    .regex(/^[a-zA-Z]+$/, "Solo se permiten letras en el nombre"),
+    .regex(/^[a-zA-Z\s]+$/, "Solo se permiten letras en el nombre"),
   precio: z.number().positive("Escribe el precio"),
   talla: z.number().positive("Escribe la talla"),
   modelo: z.string().nonempty("Elije el modelo"),

@@ -4,7 +4,7 @@ export const Employee = z.object({
   nombre: z
     .string()
     .nonempty("Escribe el nombre")
-    .regex(/^[a-zA-Z]+$/, "Solo se permiten letras en el nombre"),
+    .regex(/^[a-zA-Z\s]+$/, "Solo se permiten letras en el nombre"),
   apellidop: z
     .string()
     .nonempty("Escribe el apellido paterno")
