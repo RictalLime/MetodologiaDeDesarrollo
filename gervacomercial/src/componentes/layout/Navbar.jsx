@@ -7,7 +7,12 @@ function Navbar() {
   const router = useRouter();
 
   const abrirPerfil = () => {
-    router.push("/perfil");
+    const userRol = localStorage.getItem("userRol");
+    if(userRol === 1){
+      router.push("/perfil");
+    } else {
+      router.push("/PerfilEmpleado");
+    }
   };
 
   const handleOpenMenu = () => {

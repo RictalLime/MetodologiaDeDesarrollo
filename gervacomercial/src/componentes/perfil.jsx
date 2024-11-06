@@ -2,7 +2,9 @@ import React from 'react'
 
 function perfil() {
   return (
-    <div>perfil</div>
+    <div>
+    <h1>PERFIL ADMIN</h1>
+    </div>
   )
 }
 
