@@ -94,6 +94,8 @@ function Navbar() {
                 Cerrar sesión
               </a>
             </Link>
+            
+
           </div>
         </div>
       )}
