@@ -7,7 +7,6 @@ function ConsultarProductos() {
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [productoIdToDelete, setProductoIdToDelete] = useState(null);
 
   useEffect(() => {
     fetchProductos();
@@ -48,21 +47,21 @@ function ConsultarProductos() {
     setSelectedProducto(null);
   };
 
-  const openDeleteConfirmation = (productoId) => {
-    setProductoIdToDelete(productoId);
+  const openDeleteConfirmation = (producto) => {
+    setSelectedProducto(producto);
     setOpenDeleteModal(true);
   };
 
   const closeDeleteModal = () => {
     setOpenDeleteModal(false);
-    setProductoIdToDelete(null);
+    setSelectedProducto(null);
   };
 
   const handleDelete = async () => {
     const { error } = await supabaseClient
       .from("producto")
       .delete()
-      .eq("id", productoIdToDelete);
+      .eq("id", selectedProducto.id);
 
     if (error) {
       console.error(error);
@@ -126,7 +125,7 @@ function ConsultarProductos() {
                   </button>
                   <button
                     className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
-                    onClick={() => openDeleteConfirmation(producto.id)}
+                    onClick={() => openDeleteConfirmation(producto)}
                   >
                     Eliminar
                   </button>
@@ -147,7 +146,8 @@ function ConsultarProductos() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded-lg">
             <p className="text-lg font-semibold mb-4">
-              ¿Seguro que quieres eliminarlo?
+              ¿Seguro que quieres eliminar el producto "
+              {selectedProducto?.nombre}"?
             </p>
             <div className="flex justify-end">
               <button
