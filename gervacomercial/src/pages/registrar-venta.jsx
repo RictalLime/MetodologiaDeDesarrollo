@@ -75,6 +75,12 @@ export function RegistrarVenta() {
     }
   };
 
+  function isEnter(event) {
+    if (event.key === "Enter") {
+      agregarProducto(event);
+    }
+  }
+
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
@@ -86,7 +92,7 @@ export function RegistrarVenta() {
             placeholder="Añade el código del producto"
             value={codigoProducto}
             onChange={(e) => setCodigoProducto(e.target.value)}
-            onKeyDown={agregarProducto}
+            onKeyDown={isEnter}
             className="rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]"
           />
         </div>

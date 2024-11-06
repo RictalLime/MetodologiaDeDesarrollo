@@ -46,6 +46,7 @@ function Home() {
         .single();
 
       localStorage.setItem("userid", userData.id);
+      localStorage.setItem("userrol", userData.rolid);
       
       if (userError) {
         console.log(sessionError);
