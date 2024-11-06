@@ -27,7 +27,12 @@ function Navbar() {
           <img src="/logoGerva.svg" alt="" className="w-40 h-20" />
         </div>
         <div className="flex-grow flex justify-center">
-          <img src="/acount.svg" alt="" className="w-10 cursor-pointer" />
+          <img src="/acount.svg" alt="" className="w-10 cursor-pointer"
+          onClick={() => {
+            
+            window.location.href = "/perfil";
+          }}
+          />
         </div>
       </div>
       
