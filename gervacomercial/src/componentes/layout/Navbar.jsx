@@ -11,7 +11,7 @@ function Navbar() {
     if(userRol === 1){
       router.push("/perfil");
     } else {
-      router.push("/PerfilEmpleado");
+      router.push("/PerfilVendedor");
     }
   };
 
