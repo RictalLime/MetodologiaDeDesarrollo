@@ -9,7 +9,7 @@ function Navbar() {
   const abrirPerfil = () => {
     const userRol = localStorage.getItem("userRol");
     if (userRol === 1) {
-      router.push("/perfil");
+      router.push("/perfilAdmin");
     } else {
       router.push("/PerfilVendedor");
     }

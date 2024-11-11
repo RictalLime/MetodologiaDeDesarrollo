@@ -79,7 +79,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="flex flex-col items-center rounded-[20px] w-[90%] md:w-[60vw] bg-white text-negro p-5 max-h-[80vh] overflow-y-auto">
-        <h1 className="text-4xl">Editar empleados</h1>
+        <h1 className="text-4xl">Editar a {empleado.nombre}</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center w-full"
