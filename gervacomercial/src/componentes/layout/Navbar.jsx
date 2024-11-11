@@ -102,7 +102,7 @@ function Navbar() {
               Consultar ventas
             </Link>
             <Link
-              href="/cerrar-sesion"
+              href="/login"
               className="text-lg underline underline-offset-1 mb-2"
               onClick={handleCloseMenu}
             >
