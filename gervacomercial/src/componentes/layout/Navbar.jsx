@@ -48,7 +48,7 @@ import { useRouter } from "next/router";
             onClick={abrirPerfil}
           />
         </div>
-      </div>
+      </nav>
 
       {openMenu && (
         <div
