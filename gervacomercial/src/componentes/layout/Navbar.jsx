@@ -77,7 +77,7 @@ function Navbar() {
             <Link href="/consultar-ventas" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Consultar ventas
             </Link>
-            <Link href="/cerrar-sesion" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/login" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Cerrar sesión
             </Link>
             
