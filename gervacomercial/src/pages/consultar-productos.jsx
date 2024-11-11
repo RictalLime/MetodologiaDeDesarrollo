@@ -4,6 +4,8 @@ import { supabaseClient } from "@/utils/supabase";
 
 function ConsultarProductos() {
   const [productos, setProductos] = useState([]);
+  const [filteredProductos, setFilteredProductos] = useState([]);
+  const [searchText, setSearchText] = useState(""); // Estado para el texto de búsqueda
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -34,7 +36,17 @@ function ConsultarProductos() {
       console.error(error);
     } else {
       setProductos(productos);
+      setFilteredProductos(productos); // Inicia el filtrado con todos los productos
     }
+  };
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+    const filtered = productos.filter((producto) =>
+      producto.nombre.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredProductos(filtered);
   };
 
   const handleOpenEdit = (producto) => {
@@ -76,11 +88,13 @@ function ConsultarProductos() {
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
         <h1 className="text-4xl font-bold">Lista de productos</h1>
         <div className="border border-negro rounded-[20px] flex">
-          <img src="/assets/search.svg" alt="" />
+          <img src="/assets/search.svg" alt="Buscar" />
           <input
             type="text"
             placeholder="Busca un producto"
             className="rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]"
+            value={searchText} // Vincula el texto de búsqueda
+            onChange={handleSearch} // Evento de cambio para filtrar
           />
         </div>
       </div>
@@ -100,7 +114,7 @@ function ConsultarProductos() {
             </tr>
           </thead>
           <tbody>
-            {productos?.map((producto) => (
+            {filteredProductos.map((producto) => (
               <tr key={producto.id} className="hover:bg-azul">
                 <td className="border border-negro p-2">{producto.id}</td>
                 <td className="border border-negro p-2">{producto.nombre}</td>

@@ -9,6 +9,7 @@ function ConsultarEmpleados() {
   const [selectedEmpleado, setSelectedEmpleado] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [empleadoToDelete, setEmpleadoToDelete] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // Estado para la búsqueda
 
   useEffect(() => {
     fetchEmpleados();
@@ -51,7 +52,7 @@ function ConsultarEmpleados() {
   };
 
   const confirmDelete = (empleado) => {
-    setEmpleadoToDelete(empleado); // Guardamos el objeto del empleado completo
+    setEmpleadoToDelete(empleado);
     setShowConfirmDelete(true);
   };
 
@@ -59,7 +60,7 @@ function ConsultarEmpleados() {
     const { error } = await supabaseClient
       .from("usuario")
       .delete()
-      .eq("id", empleadoToDelete.id); // Utilizamos el ID del empleado para eliminar
+      .eq("id", empleadoToDelete.id);
 
     if (error) {
       console.error(error);
@@ -69,6 +70,13 @@ function ConsultarEmpleados() {
     setShowConfirmDelete(false);
     setEmpleadoToDelete(null);
   };
+
+  // Filtrado de empleados basado en el texto ingresado en la búsqueda
+  const filteredEmpleados = empleados.filter((empleado) =>
+    `${empleado.nombre} ${empleado.apellidop} ${empleado.correo}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
@@ -80,6 +88,8 @@ function ConsultarEmpleados() {
             type="text"
             placeholder="Busca un empleado"
             className="rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -97,7 +107,7 @@ function ConsultarEmpleados() {
             </tr>
           </thead>
           <tbody>
-            {empleados.map((empleado) => (
+            {filteredEmpleados.map((empleado) => (
               <tr key={empleado.id} className="hover:bg-azul">
                 <td className="border border-negro p-2">{empleado.nombre}</td>
                 <td className="border border-negro p-2">
