@@ -78,14 +78,6 @@ function ConsultarVentas() {
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
         <h1 className="text-4xl font-bold">Lista de ventas</h1>
-        <div className="border border-negro rounded-[20px] flex">
-          <img src="/assets/search.svg" alt="" />
-          <input
-            type="text"
-            placeholder="Busca una venta"
-            className="rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]"
-          />
-        </div>
       </div>
       <div className="w-full overflow-x-auto">
         <table className="w-full md:w-[80vw] mt-5">
