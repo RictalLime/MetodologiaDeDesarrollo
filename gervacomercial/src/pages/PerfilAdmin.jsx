@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function PerfilAdmin() {
   const router = useRouter();
@@ -31,9 +32,12 @@ export default function PerfilAdmin() {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm">
+          <Link
+            href={"/"}
+            className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
+          >
             Terminar turno
-          </button>
+          </Link>
           <img
             src="/logout.svg"
             className="w-6 h-6 text-red-500 cursor-pointer"
