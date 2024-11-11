@@ -100,7 +100,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="flex flex-col items-center rounded-[20px] w-[90%] md:w-[484px] bg-white text-negro p-5 max-h-[80vh] overflow-y-auto">
-        <h1 className="text-4xl">Editar Producto</h1>
+        <h1 className="text-4xl">Editar {producto.nombre}</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center px-4 w-full"
