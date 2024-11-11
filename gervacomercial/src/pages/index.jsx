@@ -1,10 +1,11 @@
 import React from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, roles } from "@/Schemas/LoginSchema";
 import { supabaseClient } from "@/utils/supabase";
+import LoginNavbar from "../componentes/layout/Navbarnologin";
+
 
 function Home() {
   const router = useRouter();

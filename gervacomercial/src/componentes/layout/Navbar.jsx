@@ -4,7 +4,7 @@ import { FiX } from 'react-icons/fi';
 import { useRouter } from "next/router";
 
 
-export default function Navbar() {
+ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -109,3 +109,4 @@ export default function Navbar() {
     </div>
   );
 }
+export default Navbar
