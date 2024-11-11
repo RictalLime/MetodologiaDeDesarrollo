@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, roles } from "@/Schemas/LoginSchema";
+import { LoginSchema } from "@/Schemas/LoginSchema";
 import { supabaseClient } from "@/utils/supabase";
 
 function Home() {
@@ -47,7 +47,7 @@ function Home() {
 
       localStorage.setItem("userid", userData.id);
       localStorage.setItem("userrol", userData.rolid);
-      
+
       if (userError) {
         console.log(sessionError);
         console.log(
@@ -55,9 +55,15 @@ function Home() {
         );
       } else {
         if (userData.rolid === 1) {
-          router.push("/consultar-empleados");
+          router.push({
+            pathname: "/PerfilAdmin",
+            query: { ...userData },
+          });
         } else if (userData.rolid === 2) {
-          router.push("/registrar-venta");
+          router.push({
+            pathname: "/PerfilVendedor",
+            query: { ...userData },
+          });
         } else {
           console.log("Rol no reconocido");
         }
@@ -68,17 +74,13 @@ function Home() {
   return (
     <div className="w-screen flex flex-col items-center bg-blanco p-5 md:p-10">
       <h1 className="text-4xl text-center text-negro mb-10">Gerva Comercial</h1>
-      {/*<MenuCerrarSesion />
-       */}
       <h1 className="text-3xl">Iniciar sesión</h1>
       <form
-        className=" flex flex-col w-[360px]"
+        className="flex flex-col w-[360px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-2 flex flex-col">
-          <label className="text-lg font-bold">
-            Correo Eléctronico o nombre de usuario
-          </label>
+          <label className="text-lg font-bold">Correo Electrónico</label>
           <input
             className="border-2 border-negro rounded-[25px] py-2 px-4"
             type="text"
