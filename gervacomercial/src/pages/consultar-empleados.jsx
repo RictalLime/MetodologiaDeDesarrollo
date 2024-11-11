@@ -50,8 +50,8 @@ function ConsultarEmpleados() {
     setSelectedEmpleado(null);
   };
 
-  const confirmDelete = (empleadoId) => {
-    setEmpleadoToDelete(empleadoId);
+  const confirmDelete = (empleado) => {
+    setEmpleadoToDelete(empleado); // Guardamos el objeto del empleado completo
     setShowConfirmDelete(true);
   };
 
@@ -59,7 +59,7 @@ function ConsultarEmpleados() {
     const { error } = await supabaseClient
       .from("usuario")
       .delete()
-      .eq("id", empleadoToDelete);
+      .eq("id", empleadoToDelete.id); // Utilizamos el ID del empleado para eliminar
 
     if (error) {
       console.error(error);
@@ -122,7 +122,7 @@ function ConsultarEmpleados() {
                   </button>
                   <button
                     className="border border-negro rounded-[25px] bg-red-400 p-1 m-1"
-                    onClick={() => confirmDelete(empleado.id)}
+                    onClick={() => confirmDelete(empleado)}
                   >
                     Eliminar
                   </button>
@@ -143,7 +143,7 @@ function ConsultarEmpleados() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-5 rounded-lg shadow-lg">
             <p className="text-lg font-semibold mb-4">
-              ¿Seguro que quieres eliminarlo?
+              ¿Seguro que quieres eliminar a {empleadoToDelete?.nombre}?
             </p>
             <div className="flex justify-end">
               <button
