@@ -109,14 +109,6 @@ function Home() {
         >
           Iniciar sesión
         </button>
-        <div className="w-full flex justify-center">
-          <Link
-            href={"/contrasena"}
-            className="text-lg underline underline-offset-1"
-          >
-            Olvidé mi contraseña
-          </Link>
-        </div>
       </form>
     </div>
   );
