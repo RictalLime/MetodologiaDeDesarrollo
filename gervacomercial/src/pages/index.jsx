@@ -36,7 +36,6 @@ function Home() {
         });
 
       if (session.user.email === "admin@gerva.com") {
-        localStorage.setItem("userrol", 1);
         router.push("/consultar-empleados");
       }
 
