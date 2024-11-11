@@ -47,7 +47,7 @@ function Home() {
 
       localStorage.setItem("userid", userData.id);
       localStorage.setItem("userrol", userData.rolid);
-      
+
       if (userError) {
         console.log(sessionError);
         console.log(
@@ -57,7 +57,10 @@ function Home() {
         if (userData.rolid === 1) {
           router.push("/consultar-empleados");
         } else if (userData.rolid === 2) {
-          router.push("/registrar-venta");
+          router.push({
+            pathname: "/PerfilVendedor",
+            query: { ...userData },
+          });
         } else {
           console.log("Rol no reconocido");
         }
