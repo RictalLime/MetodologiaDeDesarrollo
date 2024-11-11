@@ -80,9 +80,7 @@ function Home() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-2 flex flex-col">
-          <label className="text-lg font-bold">
-            Correo Electrónico o nombre de usuario
-          </label>
+          <label className="text-lg font-bold">Correo Electrónico</label>
           <input
             className="border-2 border-negro rounded-[25px] py-2 px-4"
             type="text"
