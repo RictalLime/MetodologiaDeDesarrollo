@@ -35,7 +35,7 @@ function Navbar() {
           />
         </div>
         <div className="flex-grow flex justify-center">
-          <img src="/logoGerva.svg" alt="" className="w-40 h-20" />
+          <img src="/logoGerva.svg" alt="" className="w-20 h-10" />
         </div>
         <div className="flex-grow flex justify-center">
           <img
