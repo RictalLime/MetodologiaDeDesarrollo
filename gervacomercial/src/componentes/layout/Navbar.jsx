@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import { FiX } from 'react-icons/fi';
+import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+function Navbar() {
+  const [openMenu, setOpenMenu] = useState(false);
   const router = useRouter();
 
   const abrirPerfil = () => {
-    const userRol = parseInt(localStorage.getItem("userRol"), 10);
+    const userRol = localStorage.getItem("userRol");
     if (userRol === 1) {
       router.push("/perfilAdmin");
     } else {
@@ -16,84 +15,104 @@ export default function Navbar() {
     }
   };
 
-  const handleCloseMenu = () => {
-    setIsMenuOpen(false);
+  const handleOpenMenu = () => {
+    setOpenMenu(true);
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const handleCloseMenu = () => {
+    setOpenMenu(false);
   };
 
   return (
-    <div className="flex w-screen justify-center">
-      {/* Navbar */}
-      <nav className="flex items-center w-full h-25 bg-[#7DACB6] text-black transition-all duration-300 fixed top-0 left-0 justify-center">
-        <div className="p-5 flex items-center justify-between w-full max-w-screen-lg">
-          <button onClick={toggleMenu} className="focus:outline-none">
-            <img src="/menu.svg" alt="Menu" className="h-5 w-5" />
-          </button>
-          <img src="/logoGerva.svg" alt="Logo Gerva" className="h-6 w-7 mx-auto" />
-          <button onClick={abrirPerfil} className="focus:outline-none">
-            <img src="/acount.svg" alt="Account" className="h-5 w-5" />
-          </button>
+    <div>
+      <div className="w-screen h-20 bg-azul flex justify-between items-center px-4">
+        <div className="flex items-center">
+          <img
+            src="/menu.svg"
+            alt=""
+            className="w-10 cursor-pointer"
+            onClick={handleOpenMenu}
+          />
         </div>
-      </nav>
+        <div className="flex-grow flex justify-center">
+          <img src="/logoGerva.svg" alt="" className="w-40 h-20" />
+        </div>
+        <div className="flex-grow flex justify-center">
+          <img
+            src="/acount.svg"
+            alt=""
+            className="w-10 cursor-pointer"
+            onClick={abrirPerfil}
+          />
+        </div>
+      </div>
 
-      {/* Sidebar */}
-      {isMenuOpen && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-start z-50">
+      {openMenu && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-start z-50"
+          onClick={handleCloseMenu}
+        >
           <div
             className="w-[300px] flex flex-col bg-white p-5 border border-black rounded-[25px]"
-            onClick={(e) => e.stopPropagation()} // Evita cerrar al hacer clic dentro del menú
+            onClick={(e) => e.stopPropagation()} // Prevent closing the menu when clicking inside the menu
           >
-            <button className="text-xl self-end focus:outline-none" onClick={handleCloseMenu}>
-              <FiX />
-            </button>
-            <nav className="mt-4 space-y-3">
-              <Link href="/registrar-productos">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Registrar producto
-                </a>
-              </Link>
-              <Link href="/consultar-productos">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Lista de productos
-                </a>
-              </Link>
-              <Link href="/registrar-empleados">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Registrar empleados
-                </a>
-              </Link>
-              <Link href="/consultar-empleados">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Lista de empleados
-                </a>
-              </Link>
-              <Link href="/registrar-venta">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Registrar ventas
-                </a>
-              </Link>
-              <Link href="/consultar-ventas">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Consultar ventas
-                </a>
-              </Link>
-              <Link href="/">
-                <a onClick={handleCloseMenu} className="block text-lg underline underline-offset-1">
-                  Cerrar sesión
-                </a>
-              </Link>
-            </nav>
+            <p className="cursor-pointer font-bold" onClick={handleCloseMenu}>
+              X
+            </p>
+            <Link
+              href="/registrar-productos"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Registrar producto
+            </Link>
+            <Link
+              href="/consultar-productos"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Lista de productos
+            </Link>
+            <Link
+              href="/registrar-empleados"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Registrar empleados
+            </Link>
+            <Link
+              href="/consultar-empleados"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Lista de empleados
+            </Link>
+            <Link
+              href="/registrar-venta"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Registrar ventas
+            </Link>
+            <Link
+              href="/consultar-ventas"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Consultar ventas
+            </Link>
+            <Link
+              href="/"
+              className="text-lg underline underline-offset-1 mb-2"
+              onClick={handleCloseMenu}
+            >
+              Cerrar sesión
+            </Link>
           </div>
         </div>
       )}
-
-      {/* Main Content */}
-      <main className="flex-1 bg-[#F5F5F5] p-6 ml-16 mt-25">
-        {/* Aquí iría el contenido principal de cada página */}
-      </main>
     </div>
   );
 }
+
+export default Navbar;
