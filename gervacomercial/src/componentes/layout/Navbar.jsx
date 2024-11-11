@@ -9,7 +9,7 @@ function Navbar() {
   const abrirPerfil = () => {
     const userRol = localStorage.getItem("userRol");
     if(userRol === 1){
-      router.push("/perfil");
+      router.push("/perfilAdmin");
     } else {
       router.push("/PerfilVendedor");
     }
@@ -59,40 +59,26 @@ function Navbar() {
             <p className="cursor-pointer font-bold" onClick={handleCloseMenu}>
               X
             </p>
-            <Link href="/registrar-productos">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/registrar-productos" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Registrar producto
-              </a>
             </Link>
-            <Link href="/consultar-productos">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/consultar-productos" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Lista de productos
-              </a>
             </Link>
-            <Link href="/registrar-empleados">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/registrar-empleados" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Registrar empleados
-              </a>
             </Link>
-            <Link href="/consultar-empleados">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/consultar-empleados" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Lista de empleados
-              </a>
             </Link>
-            <Link href="/registrar-venta">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/registrar-venta" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Registrar ventas
-              </a>
             </Link>
-            <Link href="/consultar-ventas">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/consultar-ventas" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Consultar ventas
-              </a>
             </Link>
-            <Link href="/cerrar-sesion">
-              <a className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
+            <Link href="/cerrar-sesion" className="text-lg underline underline-offset-1 mb-2" onClick={handleCloseMenu}>
                 Cerrar sesión
-              </a>
             </Link>
             
 
