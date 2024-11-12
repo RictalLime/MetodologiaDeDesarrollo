@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/Schemas/LoginSchema";
 import { supabaseClient } from "@/utils/supabase";
-import LoginNavbar from "../componentes/layout/Navbarnologin";
-
+import { roboto, playfair_Display } from "@/utils/fonts";
 
 function Home() {
   const router = useRouter();
@@ -74,16 +73,16 @@ function Home() {
 
   return (
     <div className="w-screen flex flex-col items-center bg-blanco p-5 md:p-10">
-      <h1 className="text-4xl text-center text-negro mb-10">Gerva Comercial</h1>
-      <h1 className="text-3xl">Iniciar sesión</h1>
+      <h1 className={`${playfair_Display.className} text-3xl font-bold md:text-4xl text-center text-negro mb-10`}>Gerva Comercial</h1>
+      <h1 className={`${roboto.className} text-3xl`}>Iniciar sesión</h1>
       <form
         className="flex flex-col w-[360px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-2 flex flex-col">
-          <label className="text-lg font-bold">Correo Electrónico</label>
+          <label className={`${roboto.className} text-lg font-bold`}>Correo Electrónico</label>
           <input
-            className="border-2 border-negro rounded-[25px] py-2 px-4"
+            className={`${roboto.className} border-2 border-negro rounded-[25px] py-2 px-4`}
             type="text"
             name="email"
             id="emailInput"
@@ -94,9 +93,9 @@ function Home() {
           )}
         </div>
         <div className="mb-2 flex flex-col">
-          <label className="text-lg font-bold">Contraseña</label>
+          <label className={`${roboto.className} text-lg font-bold`}>Contraseña</label>
           <input
-            className="border-2 border-negro rounded-[25px] py-2 px-4"
+            className={`${roboto.className} border-2 border-negro rounded-[25px] py-2 px-4`}
             type="password"
             {...register("password")}
           />
@@ -105,7 +104,7 @@ function Home() {
           )}
         </div>
         <button
-          className="text-lg border p-1 mt-5 rounded-[25px] border-negro bg-azul"
+          className={`${playfair_Display.className} font-bold md:text-lg border p-1 mt-5 rounded-[25px] border-negro bg-azul`}
           type="submit"
         >
           Iniciar sesión
