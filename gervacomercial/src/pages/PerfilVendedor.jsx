@@ -127,6 +127,7 @@ export default function PerfilVendedor() {
           />
         </div>
       </div>
+      
       <div className="mt-10 p-8 rounded-lg bg-azul text-black w-full max-w-md border-2 border-negro">
         <h2 className="text-3xl font-bold mb-4">Datos personales</h2>
         <p className="text-lg">
@@ -143,6 +144,7 @@ export default function PerfilVendedor() {
           {cp}, {ciudad}
         </p>
       </div>
+
       <div className="flex mt-10 gap-12">
         <div className="p-8 rounded-lg bg-azul text-black w-full max-w-xl border-2 border-negro">
           <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
@@ -161,6 +163,7 @@ export default function PerfilVendedor() {
             </table>
           </div>
         </div>
+
         <div className="p-8 rounded-lg bg-azul text-black w-full max-w-md border-2 border-negro">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Comisiones</h2>

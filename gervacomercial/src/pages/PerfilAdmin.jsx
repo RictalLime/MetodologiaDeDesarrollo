@@ -65,17 +65,21 @@ export default function PerfilAdmin() {
       </div>
 
       <div className="flex mt-10 gap-12">
-        <div className="p-8 rounded-lg bg-azul text-black w-full max-w-md border-2 border-negro">
+        <div className="p-8 rounded-lg bg-azul text-black w-full max-w-xl border-2 border-negro">
           <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
-          <div className="grid grid-cols-7 gap-2 text-center text-lg">
-            {["L", "M", "X", "J", "V", "S", "D"].map((dia, index) => (
-              <div
-                key={index}
-                className="p-3 border-2 rounded-lg bg-blanco text-sky-600"
-              >
-                {index === 0 ? "✔️" : " "}
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-black">
+              <thead>
+                <tr className="bg-azul text-black">
+                  {diasSemanaIniciales.map((dia, index) => (
+                    <th key={index} className="border px-4 py-2">{dia}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>{asistenciasPorDia}</tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
