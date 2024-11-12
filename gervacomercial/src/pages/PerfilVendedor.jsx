@@ -1,10 +1,102 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import { supabaseClient } from "@/utils/supabase";
 
 export default function PerfilVendedor() {
   const router = useRouter();
   const { nombre, rfc, correo, calle, numero, cp, ciudad } = router.query;
+  const [asistencias, setAsistencias] = useState([]);
+
+  // Función para cargar las asistencias
+  const cargarAsistencias = async () => {
+    console.log("Cargando asistencias...");
+    try {
+      const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+
+      if (userError) {
+        console.error("Error al obtener usuario:", userError.message);
+        return;
+      }
+
+      if (!user) {
+        console.error("Usuario no autenticado.");
+        return;
+      }
+
+      // Obtener las asistencias del usuario
+      const { data: asistenciaData, error } = await supabaseClient
+        .from("asistencia")
+        .select("*")
+        .eq("usuarioid", user.id);
+
+      if (error) {
+        console.error("Error al obtener asistencias:", error.message);
+        return;
+      }
+
+      console.log("Asistencias recuperadas:", asistenciaData);
+      setAsistencias(asistenciaData);
+    } catch (e) {
+      console.error("Error inesperado al cargar asistencias:", e.message);
+    }
+  };
+
+  // Función para registrar asistencia
+  const handleTerminarTurno = async () => {
+    console.log("Iniciando registro de asistencia...");
+    try {
+      const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+
+      if (userError) {
+        console.error("Error al obtener usuario:", userError.message);
+        return;
+      }
+
+      if (!user) {
+        console.error("Usuario no autenticado.");
+        return;
+      }
+
+      console.log("Usuario autenticado:", user);
+
+      // Insertar asistencia en la tabla
+      const fechaActual = new Date().toISOString();
+
+      const { error: insertError } = await supabaseClient
+        .from("asistencia")
+        .insert({ usuarioid: user.id, fecha: fechaActual });
+
+      if (insertError) {
+        console.error("Error al registrar la asistencia:", insertError.message);
+        return;
+      }
+
+      console.log("Asistencia registrada exitosamente.");
+      cargarAsistencias(); // Recargar asistencias después de registrar
+    } catch (error) {
+      console.error("Error inesperado al registrar asistencia:", error.message);
+    }
+  };
+
+  // Cargar las asistencias al montar el componente
+  useEffect(() => {
+    cargarAsistencias();
+  }, []);
+
+  const diasSemanaIniciales = ["L", "M", "X", "J", "V", "S", "D"]; // Iniciales de los días de la semana
+
+  // Crear una tabla para mostrar asistencias por día de la semana
+  const asistenciasPorDia = diasSemanaIniciales.map((dia, index) => {
+    const asistenciaDia = asistencias.find(asistencia => {
+      const fecha = new Date(asistencia.fecha);
+      return fecha.getDay() === (index + 1) % 7; // Ajustar índice (Lunes = 1, Domingo = 0)
+    });
+    return (
+      <td key={index} className="border px-4 py-2">
+        {asistenciaDia ? new Date(asistenciaDia.fecha).toLocaleTimeString() : "Sin registro"}
+      </td>
+    );
+  });
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-start bg-blanco text-black p-5 md:p-20">
@@ -21,16 +113,17 @@ export default function PerfilVendedor() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <Link
-            href={"/"}
+          <button
+            onClick={handleTerminarTurno}
             className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
           >
             Terminar turno
-          </Link>
+          </button>
           <img
             src="/logout.svg"
             className="w-6 h-6 text-red-500 cursor-pointer"
             alt="Salir"
+            onClick={() => router.push("/")}
           />
         </div>
       </div>
@@ -51,17 +144,21 @@ export default function PerfilVendedor() {
         </p>
       </div>
       <div className="flex mt-10 gap-12">
-        <div className="p-8 rounded-lg bg-azul text-black w-full max-w-md border-2 border-negro">
+        <div className="p-8 rounded-lg bg-azul text-black w-full max-w-xl border-2 border-negro">
           <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
-          <div className="grid grid-cols-7 gap-2 text-center text-lg">
-            {["L", "M", "X", "J", "V", "S", "D"].map((dia, index) => (
-              <div
-                key={index}
-                className="p-3 border-2 rounded-lg bg-blanco text-sky-600"
-              >
-                {index === 0 ? "✔️" : " "}
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-black">
+              <thead>
+                <tr className="bg-azul text-black">
+                  {diasSemanaIniciales.map((dia, index) => (
+                    <th key={index} className="border px-4 py-2">{dia}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>{asistenciasPorDia}</tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-full max-w-md border-2 border-negro">
