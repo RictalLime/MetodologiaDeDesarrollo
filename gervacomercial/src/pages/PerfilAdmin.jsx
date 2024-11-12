@@ -93,8 +93,7 @@ export default function PerfilAdmin() {
         <div className="m-10 p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro">
           <h2 className="text-3xl font-bold mb-4">Datos personales</h2>
           <p className="text-lg">
-            <span className="font-semibold">Nombre:</span>{" "}
-            {`${nombre} ${apellidop} ${apellidom}`}
+            <span className="font-semibold">Nombre:</span> {nombre}
           </p>
           <p className="text-lg">
             <span className="font-semibold">RFC:</span> {rfc}
@@ -103,8 +102,8 @@ export default function PerfilAdmin() {
             <span className="font-semibold">C. Electrónico:</span> {correo}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">Dirección:</span>{" "}
-            {`${calle} ${numero}, ${cp}, ${ciudad}`}
+            <span className="font-semibold">Dirección:</span> {calle} {numero},{" "}
+            {cp}, {ciudad}
           </p>
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">
@@ -118,7 +117,6 @@ export default function PerfilAdmin() {
           </div>
         </div>
       </div>
-
       <div className="flex m-10 gap-12 w-[60vw]">
         <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
           <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
