@@ -134,14 +134,6 @@ export default function PerfilAdmin() {
           </div>
         </div>
       </div>
-      <div className="flex m-10 gap-12 w-[60vw]">
-        <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
-          <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
-          <div className="grid grid-cols-7 gap-2 text-base">
-            {renderAsistencias()}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
