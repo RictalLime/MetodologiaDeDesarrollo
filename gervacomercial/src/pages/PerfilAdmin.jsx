@@ -18,11 +18,16 @@ export default function PerfilAdmin() {
     ciudad,
     id,
   } = router.query;
-
   const [asistencias, setAsistencias] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [comision, setComision] = useState(0);
 
   useEffect(() => {
     fetchAsistencias();
+    const id = localStorage.getItem("userid");
+    setUserId(id);
+
+    getComisionActual();
   }, []);
 
   const fetchAsistencias = async () => {
@@ -58,6 +63,29 @@ export default function PerfilAdmin() {
         {asistenciaMap[day] || " "}
       </div>
     ));
+  };
+
+  const getComisionActual = async () => {
+    let { data, error } = await supabaseClient
+      .rpc("obtener_comision_usuario", { _usuario_id: userId })
+      .single();
+
+    if (error) {
+      console.log(error);
+      setComision(0);
+    }
+    if (data) {
+      console.log(data.comision);
+
+      let texto = new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+      }).format(data.comision);
+
+      setComision(texto);
+    } else {
+      setComision(0);
+    }
   };
 
   return (
@@ -114,7 +142,7 @@ export default function PerfilAdmin() {
             <h2 className={`${playfair_Display.className} text-2xl font-bold`}>
               Comisiones
             </h2>
-            <span className="text-red-500 text-2xl">$</span>
+            <span className="text-red-500 text-2xl">${comision}</span>
           </div>
           <div className="flex justify-between items-center">
             <p className={`${roboto.className} text-lg`}>
