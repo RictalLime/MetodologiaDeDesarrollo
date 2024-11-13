@@ -1,10 +1,43 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { supabaseClient } from "@/utils/supabase";
+import { useState, useEffect } from "react";
 
 export default function PerfilVendedor() {
   const router = useRouter();
   const { nombre, rfc, correo, calle, numero, cp, ciudad } = router.query;
+  const [userId, setUserId] = useState(null);
+  const [comision, setComision] = useState(0);
+
+  useEffect(() => {
+    const id = localStorage.getItem("userid");
+    setUserId(id);
+
+    getComisionActual()
+  }, []);
+
+  const getComisionActual = async () => {
+    let { data, error } = await supabaseClient
+      .rpc('obtener_comision_usuario', { _usuario_id: userId }).single()
+
+    if (error) {
+      console.log(error)
+      setComision(0);
+    }
+    if (data) {
+      console.log(data.comision);
+
+      let texto = new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+      }).format(data.comision);
+
+      setComision(texto)
+    } else {
+      setComision(0);
+    }
+  };
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-start bg-blanco text-black p-5 md:p-20">
@@ -67,11 +100,11 @@ export default function PerfilVendedor() {
         <div className="p-8 rounded-lg bg-azul text-black w-full max-w-md border-2 border-negro">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Comisiones</h2>
-            <span className="text-red-500 text-2xl">$</span>
+            <span className="text-red-500 text-2xl">{comision}</span>
           </div>
           <div className="flex justify-between items-center">
             <p className="text-lg">Primera quincena de noviembre</p>
-            <span className="text-4xl font-bold">$999</span>
+            <span className="text-4xl font-bold"></span>
           </div>
         </div>
       </div>
