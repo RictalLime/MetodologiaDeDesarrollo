@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { supabaseClient } from "@/utils/supabase";
 
 export default function PerfilVendedor() {
   const router = useRouter();
@@ -133,14 +134,6 @@ export default function PerfilVendedor() {
           <div className="flex justify-between items-center">
             <p className="text-lg">Primera quincena de noviembre</p>
             <span className="text-4xl font-bold"></span>
-          </div>
-        </div>
-      </div>
-      <div className="flex m-10 gap-12 w-[60vw]">
-        <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
-          <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
-          <div className="grid grid-cols-7 gap-2 text-base">
-            {renderAsistencias()}
           </div>
         </div>
       </div>
