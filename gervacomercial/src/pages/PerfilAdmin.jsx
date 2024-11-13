@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { roboto, playfair_Display } from "@/utils/fonts";
 import { supabaseClient } from "@/utils/supabase";
 
 export default function PerfilAdmin() {
@@ -69,15 +70,17 @@ export default function PerfilAdmin() {
             alt="Usuario"
           />
           <div className="flex flex-col">
-            <h1 className="text-[32px] font-bold">{`${nombre} ${apellidop} ${apellidom}`}</h1>
-            <label className="text-gray-600">Admin</label>
+            <h1
+              className={`${playfair_Display.className} text-[32px] font-bold`}
+            >{`${nombre} ${apellidop} ${apellidom}`}</h1>
+            <label className={`${roboto.className} text-gray-600`}>Admin</label>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
           <Link
             href={"/"}
-            className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
+            className={`${roboto.className} bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm`}
           >
             Terminar turno
           </Link>
@@ -108,12 +111,26 @@ export default function PerfilAdmin() {
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Comisiones</h2>
+            <h2 className={`${playfair_Display.className} text-2xl font-bold`}>
+              Comisiones
+            </h2>
             <span className="text-red-500 text-2xl">$</span>
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-lg">Primera quincena de noviembre</p>
-            <span className="text-4xl font-bold">$999</span>
+            <p className={`${roboto.className} text-lg`}>
+              Primera quincena de noviembre
+            </p>
+            <span className={`${playfair_Display.className} text-xl font-bold`}>
+              $999
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="flex m-10 gap-12 w-[60vw]">
+        <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
+          <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
+          <div className="grid grid-cols-7 gap-2 text-base">
+            {renderAsistencias()}
           </div>
         </div>
       </div>

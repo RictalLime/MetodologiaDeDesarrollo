@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabaseClient } from "@/utils/supabase";
+import { roboto, playfair_Display } from "@/utils/fonts";
 
 export function RegistrarVenta() {
   const [productos, setProductos] = useState([]);
@@ -84,8 +85,8 @@ export function RegistrarVenta() {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
-        <h1 className="text-4xl font-bold">Registrar venta</h1>
-        <div className="border border-negro rounded-[20px] flex">
+        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>Registrar venta</h1>
+        <div className={`${roboto.className} border border-negro rounded-[20px] flex`}>
           <img src="/assets/search.svg" alt="Buscar" className="w-10" />
           <input
             type="text"
@@ -93,11 +94,11 @@ export function RegistrarVenta() {
             value={codigoProducto}
             onChange={(e) => setCodigoProducto(e.target.value)}
             onKeyDown={isEnter}
-            className="rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]"
+            className={`${roboto.className} rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]`}
           />
         </div>
       </div>
-      <table className="w-full md:w-[80vw] mt-5">
+      <table className={`${roboto.className} w-full md:w-[80vw] mt-5`}>
         <thead>
           <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
             <th className="rounded-tl-[25px]">Id</th>
@@ -114,6 +115,7 @@ export function RegistrarVenta() {
               <td className="border border-negro">{producto.precio}</td>
               <td className="border border-negro">
                 <button
+                  className={`${roboto.className}`}
                   onClick={() =>
                     setProductos(productos.filter((p) => p.id !== producto.id))
                   }
@@ -125,7 +127,7 @@ export function RegistrarVenta() {
           ))}
         </tbody>
       </table>
-      <div className="flex justify-between w-full md:w-[80vw] mt-5">
+      <div className={`${roboto.className} flex justify-between w-full md:w-[80vw] mt-5`}>
         <label>Total de artículos: {productos.length}</label>
         <label>Cajero: </label>
         <label>Id de la venta:</label>
@@ -133,13 +135,13 @@ export function RegistrarVenta() {
       </div>
       <div>
         <button
-          className="border border-negro rounded-[25px] bg-azul p-1 w-40"
+          className={`${roboto.className} border border-negro rounded-[25px] bg-azul p-1 w-40`}
           onClick={registrarVenta}
         >
           Registrar
         </button>
         <button
-          className="border border-negro rounded-[25px] bg-red-400 p-1 w-40"
+          className={`${roboto.className} border border-negro rounded-[25px] bg-red-400 p-1 w-40`}
           onClick={() => setProductos([])}
         >
           Cancelar
