@@ -70,6 +70,8 @@ export default function PerfilAdmin() {
       .rpc("obtener_comision_usuario", { _usuario_id: userId })
       .single();
 
+    console.log(data.comision);
+
     if (error) {
       console.log(error);
       setComision(0);
@@ -142,7 +144,7 @@ export default function PerfilAdmin() {
             <h2 className={`${playfair_Display.className} text-2xl font-bold`}>
               Comisiones
             </h2>
-            <span className="text-red-500 text-2xl">${comision}</span>
+            <span className="text-red-500 text-2xl">{comision}</span>
           </div>
           <div className="flex justify-between items-center">
             <p className={`${roboto.className} text-lg`}>

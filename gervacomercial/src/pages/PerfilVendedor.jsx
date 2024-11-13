@@ -61,6 +61,7 @@ export default function PerfilVendedor() {
     let { data, error } = await supabaseClient
       .rpc("obtener_comision_usuario", { _usuario_id: userId })
       .single();
+    console.log(data.comision);
 
     if (error) {
       console.log(error);
