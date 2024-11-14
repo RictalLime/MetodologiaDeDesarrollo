@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { supabaseClient } from "@/utils/supabase";
 
 export default function PerfilVendedor() {
-  const router = useRouter();
   const [asistencias, setAsistencias] = useState([]);
   const [vendedorData, setVendedorData] = useState([]);
   const [userId, setUserId] = useState(null);
@@ -26,7 +25,7 @@ export default function PerfilVendedor() {
   const getVendedorData = async () => {
     const { data: vendedor, error } = await supabaseClient
       .from("usuario")
-      .select("id, nombre, rfc, correo, calle, numero, cp, ciudad")
+      .select("id, nombre, rfc, correo, sueldobase, calle, numero, cp, ciudad")
       .eq("id", userId)
       .single();
 
@@ -35,7 +34,7 @@ export default function PerfilVendedor() {
     } else {
       setVendedorData(vendedor);
     }
-  }
+  };
 
   const fetchAsistencias = async () => {
     let { data: asistencias, error } = await supabaseClient
@@ -70,12 +69,6 @@ export default function PerfilVendedor() {
         {asistenciaMap[day] || " "}
       </div>
     ));
-  };
-
-  const handleTerminarTurno = async () => {
-    // Lógica para terminar el turno
-    localStorage.clear();
-    router.push("/");
   };
 
   const getComisionActual = async () => {
@@ -116,18 +109,19 @@ export default function PerfilVendedor() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <button
-            onClick={handleTerminarTurno}
+          <Link
+            href={"/"}
             className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
           >
             Terminar turno
-          </button>
-          <img
-            src="/logout.svg"
-            className="w-6 h-6 text-red-500 cursor-pointer"
-            alt="Salir"
-            onClick={() => router.push("/")}
-          />
+          </Link>
+          <Link href={"/"}>
+            <img
+              src="/logout.svg"
+              className="w-6 h-6 text-red-500 cursor-pointer"
+              alt="Salir"
+            />
+          </Link>
         </div>
       </div>
       <div className="flex">
@@ -140,11 +134,13 @@ export default function PerfilVendedor() {
             <span className="font-semibold">RFC:</span> {vendedorData.rfc}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">C. Electrónico:</span> {vendedorData.correo}
+            <span className="font-semibold">C. Electrónico:</span>{" "}
+            {vendedorData.correo}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">Dirección:</span> {vendedorData.calle} {vendedorData.numero},{" "}
-            {vendedorData.cp}, {vendedorData.ciudad}
+            <span className="font-semibold">Dirección:</span>{" "}
+            {vendedorData.calle} {vendedorData.numero}, {vendedorData.cp},{" "}
+            {vendedorData.ciudad}
           </p>
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">
@@ -154,7 +150,7 @@ export default function PerfilVendedor() {
           </div>
           <div className="flex justify-between items-center">
             <p className="text-lg">Primera quincena de noviembre</p>
-            <span className="text-4xl font-bold"></span>
+            <span className="text-xl font-bold">{vendedorData.sueldobase}</span>
           </div>
         </div>
       </div>
