@@ -4,24 +4,44 @@ import { supabaseClient } from "@/utils/supabase";
 
 export default function PerfilVendedor() {
   const router = useRouter();
-  const { nombre, rfc, correo, calle, numero, cp, ciudad, id } = router.query;
   const [asistencias, setAsistencias] = useState([]);
+  const [vendedorData, setVendedorData] = useState([]);
   const [userId, setUserId] = useState(null);
-  const [comision, setComision] = useState(0);
+  const [comision, setComision] = useState("$0.00");
 
   useEffect(() => {
-    fetchAsistencias();
     const id = localStorage.getItem("userid");
     setUserId(id);
+  });
 
-    getComisionActual();
-  }, []);
+  // Hasta que esté cargado el id, se ejecuta el resto.
+  useEffect(() => {
+    if (userId) {
+      getVendedorData();
+      fetchAsistencias();
+      getComisionActual();
+    }
+  }, [userId]);
+
+  const getVendedorData = async () => {
+    const { data: vendedor, error } = await supabaseClient
+      .from("usuario")
+      .select("id, nombre, rfc, correo, calle, numero, cp, ciudad")
+      .eq("id", userId)
+      .single();
+
+    if (error) {
+      console.log(error);
+    } else {
+      setVendedorData(vendedor);
+    }
+  }
 
   const fetchAsistencias = async () => {
-    const { data: asistencias, error } = await supabaseClient
+    let { data: asistencias, error } = await supabaseClient
       .from("asistencia")
       .select("*")
-      .eq("usuarioid", id);
+      .eq("usuarioid", userId);
 
     if (error) {
       console.error(error);
@@ -54,6 +74,7 @@ export default function PerfilVendedor() {
 
   const handleTerminarTurno = async () => {
     // Lógica para terminar el turno
+    localStorage.clear();
     router.push("/");
   };
 
@@ -61,11 +82,10 @@ export default function PerfilVendedor() {
     let { data, error } = await supabaseClient
       .rpc("obtener_comision_usuario", { _usuario_id: userId })
       .single();
-    console.log(data.comision);
 
     if (error) {
       console.log(error);
-      setComision(0);
+      setComision("$0.00");
     }
     if (data) {
       console.log(data.comision);
@@ -77,7 +97,7 @@ export default function PerfilVendedor() {
 
       setComision(texto);
     } else {
-      setComision(0);
+      setComision("$0.00");
     }
   };
 
@@ -91,7 +111,7 @@ export default function PerfilVendedor() {
             alt="Usuario"
           />
           <div className="flex flex-col">
-            <h1 className="text-[32px] font-bold">{nombre}</h1>
+            <h1 className="text-[32px] font-bold">{vendedorData.nombre}</h1>
             <label className="text-gray-600">Empleado</label>
           </div>
         </div>
@@ -114,17 +134,17 @@ export default function PerfilVendedor() {
         <div className="m-10 p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro">
           <h2 className="text-3xl font-bold mb-4">Datos personales</h2>
           <p className="text-lg">
-            <span className="font-semibold">Nombre:</span> {nombre}
+            <span className="font-semibold">Nombre:</span> {vendedorData.nombre}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">RFC:</span> {rfc}
+            <span className="font-semibold">RFC:</span> {vendedorData.rfc}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">C. Electrónico:</span> {correo}
+            <span className="font-semibold">C. Electrónico:</span> {vendedorData.correo}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">Dirección:</span> {calle} {numero},{" "}
-            {cp}, {ciudad}
+            <span className="font-semibold">Dirección:</span> {vendedorData.calle} {vendedorData.numero},{" "}
+            {vendedorData.cp}, {vendedorData.ciudad}
           </p>
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">

@@ -35,10 +35,6 @@ function Home() {
           refresh_token,
         });
 
-      if (session.user.email === "admin@gerva.com") {
-        router.push("/consultar-empleados");
-      }
-
       const { data: userData, error: userError } = await supabaseClient
         .from("usuario")
         .select("*")
@@ -50,9 +46,7 @@ function Home() {
 
       if (userError) {
         console.log(sessionError);
-        console.log(
-          "El usuario no existe en las bases de datos (public y auth)"
-        );
+        console.log("El usuario no existe en las bases de datos (public y auth)");
       } else {
         // Insertar asistencia
         const { data: asistenciaData, error: asistenciaError } =
@@ -73,12 +67,10 @@ function Home() {
         if (userData.rolid === 1) {
           router.push({
             pathname: "/PerfilAdmin",
-            query: { ...userData },
           });
         } else if (userData.rolid === 2) {
           router.push({
             pathname: "/PerfilVendedor",
-            query: { ...userData },
           });
         } else {
           console.log("Rol no reconocido");
