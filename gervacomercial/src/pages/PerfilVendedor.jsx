@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabaseClient } from "@/utils/supabase";
+import { roboto, playfair_Display } from "@/utils/fonts";
 
 export default function PerfilVendedor() {
   const [asistencias, setAsistencias] = useState([]);
@@ -25,7 +26,9 @@ export default function PerfilVendedor() {
   const getVendedorData = async () => {
     const { data: vendedor, error } = await supabaseClient
       .from("usuario")
-      .select("id, nombre, rfc, correo, sueldobase, calle, numero, cp, ciudad")
+      .select(
+        "id, nombre, apellidop, apellidom, rfc, correo, sueldobase, calle, numero, cp, ciudad"
+      )
       .eq("id", userId)
       .single();
 
@@ -72,12 +75,15 @@ export default function PerfilVendedor() {
   };
 
   const getComisionActual = async () => {
-    const timestamp = new Date().toLocaleDateString('en-CA', {
-      timeZone: 'America/Mexico_City',
+    const timestamp = new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Mexico_City",
     });
-    
+
     const { data, error } = await supabaseClient
-      .rpc("obtener_comision_usuario", { _usuario_id: userId, _fecha_actual: timestamp })
+      .rpc("obtener_comision_usuario", {
+        _usuario_id: userId,
+        _fecha_actual: timestamp,
+      })
       .single();
 
     if (error) {
@@ -108,8 +114,10 @@ export default function PerfilVendedor() {
             alt="Usuario"
           />
           <div className="flex flex-col">
-            <h1 className="text-[32px] font-bold">{vendedorData.nombre}</h1>
-            <label className="text-gray-600">Empleado</label>
+            <h1
+              className={`${playfair_Display.className} text-[32px] font-bold`}
+            >{`${vendedorData.nombre} ${vendedorData.apellidop} ${vendedorData.apellidom}`}</h1>
+            <label className={`${roboto.className} text-gray-600`}>Admin</label>
           </div>
         </div>
         <div className="flex items-center gap-4">
