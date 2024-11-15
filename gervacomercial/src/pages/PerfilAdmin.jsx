@@ -74,8 +74,12 @@ export default function PerfilAdmin() {
   };
 
   const getComisionActual = async () => {
-    let { data, error } = await supabaseClient
-      .rpc("obtener_comision_usuario", { _usuario_id: userId })
+    const timestamp = new Date().toLocaleDateString('en-CA', {
+      timeZone: 'America/Mexico_City',
+    });
+    
+    const { data, error } = await supabaseClient
+      .rpc("obtener_comision_usuario", { _usuario_id: userId, _fecha_actual: timestamp })
       .single();
 
     if (error) {
