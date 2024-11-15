@@ -74,12 +74,15 @@ export default function PerfilAdmin() {
   };
 
   const getComisionActual = async () => {
-    const timestamp = new Date().toLocaleDateString('en-CA', {
-      timeZone: 'America/Mexico_City',
+    const timestamp = new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Mexico_City",
     });
-    
+
     const { data, error } = await supabaseClient
-      .rpc("obtener_comision_usuario", { _usuario_id: userId, _fecha_actual: timestamp })
+      .rpc("obtener_comision_usuario", {
+        _usuario_id: userId,
+        _fecha_actual: timestamp,
+      })
       .single();
 
     if (error) {
@@ -161,7 +164,7 @@ export default function PerfilAdmin() {
           </div>
           <div className="flex justify-between items-center">
             <p className={`${roboto.className} text-lg`}>
-              Primera quincena de noviembre
+              Sueldo de la semana:
             </p>
             <span className={`${playfair_Display.className} text-xl font-bold`}>
               {adminData.sueldobase}

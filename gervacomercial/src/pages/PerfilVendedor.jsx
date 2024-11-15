@@ -161,7 +161,7 @@ export default function PerfilVendedor() {
             <span className="text-red-500 text-2xl">{comision}</span>
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-lg">Primera quincena de noviembre</p>
+            <p className="text-lg">Sueldo de la semana:</p>
             <span className="text-xl font-bold">{vendedorData.sueldobase}</span>
           </div>
         </div>
