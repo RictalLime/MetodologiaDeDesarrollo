@@ -44,8 +44,10 @@ function ConsultarProductos() {
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchText(value);
-    const filtered = productos.filter((producto) =>
-      producto.nombre.toLowerCase().includes(value.toLowerCase())
+    const filtered = productos.filter(
+      (producto) =>
+        producto.nombre.toLowerCase().includes(value.toLowerCase()) ||
+        producto.modelo.marca.nombre.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredProductos(filtered);
   };
@@ -87,8 +89,12 @@ function ConsultarProductos() {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
-        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>Productos</h1>
-        <div className={`${roboto.className} border border-negro rounded-[20px] flex`}>
+        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>
+          Productos
+        </h1>
+        <div
+          className={`${roboto.className} border border-negro rounded-[20px] flex`}
+        >
           <img src="/assets/search.svg" alt="Buscar" />
           <input
             type="text"
