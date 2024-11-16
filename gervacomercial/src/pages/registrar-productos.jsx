@@ -66,20 +66,17 @@ function RegistrarProductos() {
   });
 
   const onSubmit = async (formData) => {
-    console.log(formData);
+    const producto = {
+      ...formData,
+      modeloid: formData.modelo // se crea el atributo modeloid necesario para el json
+    }
+    delete producto.modelo; // Se elimina el atributo anterior innecesario
+
     const { data, error } = await supabaseClient
-      .from("producto")
-      .insert([
-        {
-          nombre: formData.nombre,
-          precio: formData.precio,
-          talla: formData.talla,
-          disponibles: formData.disponibles,
-          color: formData.color,
-          modeloid: formData.modelo,
-        },
-      ])
-      .select();
+      .rpc("registrar_producto", {
+        _json: producto
+      });
+
     if (error) {
       console.log(error);
     } else {
