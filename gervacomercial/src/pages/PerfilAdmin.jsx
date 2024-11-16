@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { roboto, playfair_Display } from "@/utils/fonts";
 import { supabaseClient } from "@/utils/supabase";
 
 export default function PerfilAdmin() {
-  const router = useRouter();
   const [adminData, setAdminData] = useState([]);
   const [asistencias, setAsistencias] = useState([]);
   const [userId, setUserId] = useState(null);
@@ -27,7 +25,9 @@ export default function PerfilAdmin() {
   const getAdminData = async () => {
     const { data: vendedor, error } = await supabaseClient
       .from("usuario")
-      .select("id, nombre, apellidop, apellidom, rfc, correo, sueldobase, calle, numero, cp, ciudad")
+      .select(
+        "id, nombre, apellidop, apellidom, rfc, correo, sueldobase, calle, numero, cp, ciudad"
+      )
       .eq("id", userId)
       .single();
 
@@ -36,7 +36,7 @@ export default function PerfilAdmin() {
     } else {
       setAdminData(vendedor);
     }
-  }
+  };
 
   const fetchAsistencias = async () => {
     const { data: asistencias, error } = await supabaseClient
@@ -74,17 +74,20 @@ export default function PerfilAdmin() {
   };
 
   const getComisionActual = async () => {
-    const timestamp = new Date().toLocaleDateString('en-CA', {
-      timeZone: 'America/Mexico_City',
+    const timestamp = new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Mexico_City",
     });
-    
+
     const { data, error } = await supabaseClient
-      .rpc("obtener_comision_usuario", { _usuario_id: userId, _fecha_actual: timestamp })
+      .rpc("obtener_comision_usuario", {
+        _usuario_id: userId,
+        _fecha_actual: timestamp,
+      })
       .single();
 
     if (error) {
       console.log(error);
-      setComision("$0");
+      setComision("$0.00");
     }
     if (data) {
       console.log(data.comision);
@@ -124,11 +127,13 @@ export default function PerfilAdmin() {
           >
             Terminar turno
           </Link>
-          <img
-            src="/logout.svg"
-            className="w-6 h-6 text-red-500 cursor-pointer"
-            alt="Salir"
-          />
+          <Link href={"/"}>
+            <img
+              src="/logout.svg"
+              className="w-6 h-6 text-red-500 cursor-pointer"
+              alt="Salir"
+            />
+          </Link>
         </div>
       </div>
 
@@ -142,11 +147,12 @@ export default function PerfilAdmin() {
             <span className="font-semibold">RFC:</span> {adminData.rfc}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">C. Electrónico:</span> {adminData.correo}
+            <span className="font-semibold">C. Electrónico:</span>{" "}
+            {adminData.correo}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">Dirección:</span> {adminData.calle} {adminData.numero},{" "}
-            {adminData.cp}, {adminData.ciudad}
+            <span className="font-semibold">Dirección:</span> {adminData.calle}{" "}
+            {adminData.numero}, {adminData.cp}, {adminData.ciudad}
           </p>
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">
@@ -158,7 +164,7 @@ export default function PerfilAdmin() {
           </div>
           <div className="flex justify-between items-center">
             <p className={`${roboto.className} text-lg`}>
-              Primera quincena de noviembre
+              Sueldo de la semana:
             </p>
             <span className={`${playfair_Display.className} text-xl font-bold`}>
               {adminData.sueldobase}
