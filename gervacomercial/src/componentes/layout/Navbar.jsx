@@ -61,51 +61,47 @@ function Navbar() {
             </p>
             <Link
               href="/registrar-productos"
-              className="text-lg underline underline-offset-1 mb-2"
+              className="text-lg mb-2"
               onClick={handleCloseMenu}
             >
               Registrar producto
             </Link>
             <Link
               href="/consultar-productos"
-              className="text-lg underline underline-offset-1 mb-2"
+              className="text-lg mb-2"
               onClick={handleCloseMenu}
             >
               Lista de productos
             </Link>
             <Link
               href="/registrar-empleados"
-              className="text-lg underline underline-offset-1 mb-2"
+              className="text-lg mb-2"
               onClick={handleCloseMenu}
             >
               Registrar empleados
             </Link>
             <Link
               href="/consultar-empleados"
-              className="text-lg underline underline-offset-1 mb-2"
+              className="text-lg mb-2"
               onClick={handleCloseMenu}
             >
               Lista de empleados
             </Link>
             <Link
               href="/registrar-venta"
-              className="text-lg underline underline-offset-1 mb-2"
+              className="text-lg mb-2"
               onClick={handleCloseMenu}
             >
               Registrar ventas
             </Link>
             <Link
               href="/consultar-ventas"
-              className="text-lg underline underline-offset-1 mb-2"
+              className="text-lg mb-2"
               onClick={handleCloseMenu}
             >
               Consultar ventas
             </Link>
-            <Link
-              href="/"
-              className="text-lg underline underline-offset-1 mb-2"
-              onClick={handleCloseMenu}
-            >
+            <Link href="/" className="text-lg mb-2" onClick={handleCloseMenu}>
               Cerrar sesión
             </Link>
           </div>

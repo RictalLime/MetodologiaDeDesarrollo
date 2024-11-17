@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabaseClient } from "@/utils/supabase";
-import { roboto, playfair_Display } from "@/utils/fonts";
+import { playfair_Display } from "@/utils/fonts";
 
 export default function PerfilVendedor() {
   const [asistencias, setAsistencias] = useState([]);
@@ -117,7 +117,7 @@ export default function PerfilVendedor() {
             <h1
               className={`${playfair_Display.className} text-[32px] font-bold`}
             >{`${vendedorData.nombre} ${vendedorData.apellidop} ${vendedorData.apellidom}`}</h1>
-            <label className={`${roboto.className} text-gray-600`}>Admin</label>
+            <label>Empleado</label>
           </div>
         </div>
         <div className="flex items-center gap-4">
