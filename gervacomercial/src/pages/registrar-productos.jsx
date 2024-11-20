@@ -9,6 +9,7 @@ function RegistrarProductos() {
   const [modelos, setModelos] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [selectedMarca, setSelectedMarca] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getModelos();
@@ -68,33 +69,37 @@ function RegistrarProductos() {
   const onSubmit = async (formData) => {
     const producto = {
       ...formData,
-      modeloid: formData.modelo // se crea el atributo modeloid necesario para el json
-    }
+      modeloid: formData.modelo, // se crea el atributo modeloid necesario para el json
+    };
     delete producto.modelo; // Se elimina el atributo anterior innecesario
 
-    const { data, error } = await supabaseClient
-      .rpc("registrar_producto", {
-        _json: producto
-      });
+    const { data, error } = await supabaseClient.rpc("registrar_producto", {
+      _json: producto,
+    });
 
     if (error) {
       console.log(error);
     } else {
       console.log(data);
-      alert("Producto registrado");
+      setShowModal(true); // Mostrar el modal
       reset();
     }
   };
 
   return (
     <div className="w-screen flex flex-col items-center p-5 md:p-20 bg-blanco text-negro">
-      <h1 className={`${playfair_Display.className} text-[64px] font-bold`}>Registrar Producto</h1>
+      <h1 className={`${playfair_Display.className} text-[64px] font-bold`}>
+        Registrar Producto
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center w-full md:w-[484px]"
       >
         <div className="flex flex-col mt-5 w-full">
-          <label form="user" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            form="user"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Nombre
           </label>
           <input
@@ -107,7 +112,9 @@ function RegistrarProductos() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label className={`${roboto.className} font-bold text-xl`}>Talla</label>
+          <label className={`${roboto.className} font-bold text-xl`}>
+            Talla
+          </label>
           <input
             type="number"
             className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
@@ -119,7 +126,9 @@ function RegistrarProductos() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label className={`${roboto.className} font-bold text-xl`}>Precio</label>
+          <label className={`${roboto.className} font-bold text-xl`}>
+            Precio
+          </label>
           <input
             type="number"
             name="precio"
@@ -131,7 +140,9 @@ function RegistrarProductos() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label className={`${roboto.className} font-bold text-xl`}>Disponibles</label>
+          <label className={`${roboto.className} font-bold text-xl`}>
+            Disponibles
+          </label>
           <input
             type="number"
             name="disponibles"
@@ -143,7 +154,9 @@ function RegistrarProductos() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label className={`${roboto.className} font-bold text-xl`}>Marca</label>
+          <label className={`${roboto.className} font-bold text-xl`}>
+            Marca
+          </label>
           <select
             className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
             {...register("marca")}
@@ -161,7 +174,9 @@ function RegistrarProductos() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label className={`${roboto.className} font-bold text-xl`}>Modelo</label>
+          <label className={`${roboto.className} font-bold text-xl`}>
+            Modelo
+          </label>
           <select
             className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
             {...register("modelo")}
@@ -178,7 +193,9 @@ function RegistrarProductos() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label className={`${roboto.className} font-bold text-xl`}>Color</label>
+          <label className={`${roboto.className} font-bold text-xl`}>
+            Color
+          </label>
           <input
             className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
             {...register("color")}
@@ -195,6 +212,21 @@ function RegistrarProductos() {
           Aceptar
         </button>
       </form>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">
+              Producto registrado con éxito
+            </h2>
+            <button
+              className="border border-negro rounded-[25px] bg-azul p-1 m-1"
+              onClick={() => setShowModal(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
