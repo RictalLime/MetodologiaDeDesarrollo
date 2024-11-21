@@ -12,7 +12,7 @@ export default function PerfilVendedor() {
   useEffect(() => {
     const id = localStorage.getItem("userid");
     setUserId(id);
-  });
+  }, []);
 
   // Hasta que esté cargado el id, se ejecuta el resto.
   useEffect(() => {
@@ -84,19 +84,19 @@ export default function PerfilVendedor() {
         _usuario_id: userId,
         _fecha_actual: timestamp,
       })
-      .single();
+      .limit(1); // Asegúrate de que la consulta devuelva solo una fila
 
     if (error) {
       console.log(error);
       setComision("$0.00");
-    }
-    if (data) {
-      console.log(data.comision);
+    } else if (data && data.length > 0) {
+      // Si la consulta devuelve datos, usamos el primero (en caso de que haya más de uno)
+      const comision = data[0].comision;
 
       let texto = new Intl.NumberFormat("es-MX", {
         style: "currency",
         currency: "MXN",
-      }).format(data.comision);
+      }).format(comision);
 
       setComision(texto);
     } else {

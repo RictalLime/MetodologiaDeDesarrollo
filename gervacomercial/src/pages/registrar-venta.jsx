@@ -90,7 +90,9 @@ export function RegistrarVenta() {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
-        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>Registrar venta</h1>
+        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>
+          Registrar venta
+        </h1>
         <div className={`${roboto.className} border border-negro rounded-[20px] flex`}>
           <img src="/assets/search.svg" alt="Buscar" className="w-10" />
           <input
@@ -138,7 +140,7 @@ export function RegistrarVenta() {
         <label>Id de la venta:</label>
         <label>Valor total de la venta: {valorTotal}</label>
       </div>
-      <div>
+      <div className="flex gap-4 mt-5">
         <button
           className={`${roboto.className} border border-negro rounded-[25px] bg-azul p-1 w-40`}
           onClick={registrarVenta}

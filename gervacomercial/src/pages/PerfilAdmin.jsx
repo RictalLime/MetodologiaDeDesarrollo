@@ -11,8 +11,10 @@ export default function PerfilAdmin() {
 
   useEffect(() => {
     const id = localStorage.getItem("userid");
-    setUserId(id);
-  });
+    if (id) {
+      setUserId(id);
+    }
+  }, []);
 
   useEffect(() => {
     if (userId) {
@@ -58,6 +60,10 @@ export default function PerfilAdmin() {
   };
 
   const renderAsistencias = () => {
+    if (asistencias.length === 0) {
+      return <p>No hay asistencias registradas.</p>;
+    }
+
     const days = ["L", "M", "X", "J", "V", "S", "D"];
     const asistenciaMap = {};
 
@@ -71,6 +77,13 @@ export default function PerfilAdmin() {
         {asistenciaMap[day] || " "}
       </div>
     ));
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("es-MX", {
+      style: "currency",
+      currency: "MXN",
+    }).format(amount);
   };
 
   const getComisionActual = async () => {
@@ -90,14 +103,7 @@ export default function PerfilAdmin() {
       setComision("$0.00");
     }
     if (data) {
-      console.log(data.comision);
-
-      let texto = new Intl.NumberFormat("es-MX", {
-        style: "currency",
-        currency: "MXN",
-      }).format(data.comision);
-
-      setComision(texto);
+      setComision(formatCurrency(data.comision));
     } else {
       setComision("$0.00");
     }
@@ -163,23 +169,14 @@ export default function PerfilAdmin() {
             <span className="text-red-500 text-2xl">{comision}</span>
           </div>
           <div className="flex justify-between items-center">
-            <p className={`${roboto.className} text-lg`}>
-              Sueldo de la semana:
-            </p>
+            <p className={`${roboto.className} text-lg`}>Sueldo de la semana:</p>
             <span className={`${playfair_Display.className} text-xl font-bold`}>
               {adminData.sueldobase}
             </span>
           </div>
         </div>
       </div>
-      <div className="flex m-10 gap-12 w-[60vw]">
-        <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
-          <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
-          <div className="grid grid-cols-7 gap-2 text-base">
-            {renderAsistencias()}
-          </div>
-        </div>
-      </div>
+
       <div className="flex m-10 gap-12 w-[60vw]">
         <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
           <h2 className="text-2xl font-bold mb-4">Asistencias</h2>

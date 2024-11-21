@@ -1,47 +1,47 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 function Navbar() {
   const [openMenu, setOpenMenu] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
 
   const abrirPerfil = () => {
+    if (isNavigating) return;
+    setIsNavigating(true);
     const userRol = localStorage.getItem("userRol");
-    if (userRol === 1) {
-      router.push("/PerfilAdmin");
-    } else {
-      router.push("/PerfilVendedor");
-    }
+    const ruta = userRol === "1" ? "/PerfilAdmin" : "/PerfilVendedor";
+    router.push(ruta).finally(() => setIsNavigating(false));
   };
 
-  const handleOpenMenu = () => {
-    setOpenMenu(true);
-  };
-
-  const handleCloseMenu = () => {
-    setOpenMenu(false);
-  };
+  const handleOpenMenu = () => setOpenMenu(true);
+  const handleCloseMenu = () => setOpenMenu(false);
 
   return (
     <div>
       <div className="w-screen h-20 bg-azul flex justify-between items-center px-4">
         <div className="flex items-center">
-          <img
+          <Image
             src="/menu.svg"
-            alt=""
-            className="w-10 cursor-pointer"
+            alt="Abrir menú"
+            width={40}
+            height={40}
+            className="cursor-pointer"
             onClick={handleOpenMenu}
           />
         </div>
         <div className="flex-grow flex justify-center">
-          <img src="/logoGerva.svg" alt="" className="w-20 h-10" />
+          <Image src="/logoGerva.svg" alt="Logo Gerva" width={80} height={40} />
         </div>
         <div className="flex-grow flex justify-center">
-          <img
+          <Image
             src="/acount.svg"
-            alt=""
-            className="w-10 cursor-pointer"
+            alt="Abrir perfil"
+            width={40}
+            height={40}
+            className="cursor-pointer"
             onClick={abrirPerfil}
           />
         </div>
@@ -54,54 +54,33 @@ function Navbar() {
         >
           <div
             className="w-[300px] flex flex-col bg-white p-5 border border-black rounded-[25px]"
-            onClick={(e) => e.stopPropagation()} // Prevent closing the menu when clicking inside the menu
+            onClick={(e) => e.stopPropagation()}
           >
-            <p className="cursor-pointer font-bold" onClick={handleCloseMenu}>
-              X
-            </p>
-            <Link
-              href="/registrar-productos"
-              className="text-lg mb-2"
+            <button
+              className="text-right font-bold text-lg mb-4"
               onClick={handleCloseMenu}
             >
+              X
+            </button>
+            <Link href="/registrar-productos" className="text-lg mb-2">
               Registrar producto
             </Link>
-            <Link
-              href="/consultar-productos"
-              className="text-lg mb-2"
-              onClick={handleCloseMenu}
-            >
+            <Link href="/consultar-productos" className="text-lg mb-2">
               Lista de productos
             </Link>
-            <Link
-              href="/registrar-empleados"
-              className="text-lg mb-2"
-              onClick={handleCloseMenu}
-            >
+            <Link href="/registrar-empleados" className="text-lg mb-2">
               Registrar empleados
             </Link>
-            <Link
-              href="/consultar-empleados"
-              className="text-lg mb-2"
-              onClick={handleCloseMenu}
-            >
+            <Link href="/consultar-empleados" className="text-lg mb-2">
               Lista de empleados
             </Link>
-            <Link
-              href="/registrar-venta"
-              className="text-lg mb-2"
-              onClick={handleCloseMenu}
-            >
+            <Link href="/registrar-venta" className="text-lg mb-2">
               Registrar ventas
             </Link>
-            <Link
-              href="/consultar-ventas"
-              className="text-lg mb-2"
-              onClick={handleCloseMenu}
-            >
+            <Link href="/consultar-ventas" className="text-lg mb-2">
               Consultar ventas
             </Link>
-            <Link href="/" className="text-lg mb-2" onClick={handleCloseMenu}>
+            <Link href="/" className="text-lg mb-2">
               Cerrar sesión
             </Link>
           </div>

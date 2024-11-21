@@ -2,20 +2,23 @@ import React, { useState, useEffect } from "react";
 import EditarProductos from "@/componentes/EditarProductos";
 import { supabaseClient } from "@/utils/supabase";
 import { roboto, playfair_Display } from "@/utils/fonts";
+import debounce from 'lodash.debounce';
 
 function ConsultarProductos() {
   const [productos, setProductos] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
-  const [searchText, setSearchText] = useState(""); // Estado para el texto de búsqueda
+  const [searchText, setSearchText] = useState(""); 
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchProductos();
   }, []);
 
   const fetchProductos = async () => {
+    setLoading(true);
     let { data: productos, error } = await supabaseClient.from("producto")
       .select(`
         id,
@@ -37,11 +40,12 @@ function ConsultarProductos() {
       console.error(error);
     } else {
       setProductos(productos);
-      setFilteredProductos(productos); // Inicia el filtrado con todos los productos
+      setFilteredProductos(productos); 
     }
+    setLoading(false);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = debounce((e) => {
     const value = e.target.value;
     setSearchText(value);
     const filtered = productos.filter(
@@ -50,7 +54,7 @@ function ConsultarProductos() {
         producto.modelo.marca.nombre.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredProductos(filtered);
-  };
+  }, 500);
 
   const handleOpenEdit = (producto) => {
     setSelectedProducto(producto);
@@ -100,62 +104,60 @@ function ConsultarProductos() {
             type="text"
             placeholder="Busca un producto"
             className={`${roboto.className} rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]`}
-            value={searchText} // Vincula el texto de búsqueda
-            onChange={handleSearch} // Evento de cambio para filtrar
+            value={searchText}
+            onChange={handleSearch}
           />
         </div>
       </div>
-      <div className="w-full overflow-x-auto">
-        <table className={`${roboto.className} w-full md:w-[80vw] mt-5`}>
-          <thead>
-            <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
-              <th className="rounded-tl-[25px]">Id</th>
-              <th>Nombre</th>
-              <th>Marca</th>
-              <th>Modelo</th>
-              <th>Color</th>
-              <th>Talla</th>
-              <th>Precio</th>
-              <th>Disponibles</th>
-              <th className="rounded-tr-[25px]">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProductos.map((producto) => (
-              <tr key={producto.id} className="hover:bg-azul">
-                <td className="border border-negro p-2">{producto.id}</td>
-                <td className="border border-negro p-2">{producto.nombre}</td>
-                <td className="border border-negro p-2">
-                  {producto.modelo.marca.nombre}
-                </td>
-                <td className="border border-negro p-2">
-                  {producto.modelo.nombre}
-                </td>
-                <td className="border border-negro p-2">{producto.color}</td>
-                <td className="border border-negro p-2">{producto.talla}</td>
-                <td className="border border-negro p-2">{producto.precio}</td>
-                <td className="border border-negro p-2">
-                  {producto.disponibles}
-                </td>
-                <td className="border border-negro flex">
-                  <button
-                    className={`${roboto.className} border border-negro rounded-[25px] bg-azul p-1 m-1`}
-                    onClick={() => handleOpenEdit(producto)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className={`${roboto.className} border border-negro rounded-[25px] bg-red-400 p-1 m-1`}
-                    onClick={() => openDeleteConfirmation(producto)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
+      {loading ? (
+        <p className={`${roboto.className} text-center text-xl`}>Cargando productos...</p>
+      ) : (
+        <div className="w-full overflow-x-auto">
+          <table className={`${roboto.className} w-full md:w-[80vw] mt-5`}>
+            <thead>
+              <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
+                <th className="rounded-tl-[25px]">Id</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Talla</th>
+                <th>Precio</th>
+                <th>Disponibles</th>
+                <th className="rounded-tr-[25px]">Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {filteredProductos.map((producto) => (
+                <tr key={producto.id} className="hover:bg-azul">
+                  <td className="border border-negro p-2">{producto.id}</td>
+                  <td className="border border-negro p-2">{producto.nombre}</td>
+                  <td className="border border-negro p-2">{producto.modelo.marca.nombre}</td>
+                  <td className="border border-negro p-2">{producto.modelo.nombre}</td>
+                  <td className="border border-negro p-2">{producto.color}</td>
+                  <td className="border border-negro p-2">{producto.talla}</td>
+                  <td className="border border-negro p-2">{producto.precio}</td>
+                  <td className="border border-negro p-2">{producto.disponibles}</td>
+                  <td className="border border-negro flex">
+                    <button
+                      className={`${roboto.className} border border-negro rounded-[25px] bg-azul p-1 m-1`}
+                      onClick={() => handleOpenEdit(producto)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className={`${roboto.className} border border-negro rounded-[25px] bg-red-400 p-1 m-1`}
+                      onClick={() => openDeleteConfirmation(producto)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {openEdit && (
         <EditarProductos
           onClose={handleCloseEdit}

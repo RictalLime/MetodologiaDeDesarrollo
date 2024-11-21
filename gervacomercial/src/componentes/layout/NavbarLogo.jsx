@@ -1,11 +1,16 @@
 import React from "react";
+import Image from "next/image";
 
 function NavbarLogo() {
   return (
-    <div className="w-screen h-20 bg-azul flex justify-center items-center px-4">
-      <div className="flex-grow flex justify-center">
-        <img src="/logoGerva.svg" alt="" className="w-20 h-10" />
-      </div>
+    <div className="w-screen h-20 bg-azul flex justify-center items-center">
+      <Image
+        src="/logoGerva.svg"
+        alt="Logo de Gerva Comercial"
+        width={80}
+        height={40}
+        priority
+      />
     </div>
   );
 }

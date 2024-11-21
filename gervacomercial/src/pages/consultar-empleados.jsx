@@ -10,11 +10,14 @@ function ConsultarEmpleados() {
   const [selectedEmpleado, setSelectedEmpleado] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [empleadoToDelete, setEmpleadoToDelete] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); // Estado para la búsqueda
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   useEffect(() => {
-    fetchEmpleados();
-    fetchRoles();
+    const fetchData = async () => {
+      await fetchEmpleados();
+      await fetchRoles();
+    };
+    fetchData();
   }, []);
 
   const fetchEmpleados = async () => {
@@ -58,6 +61,7 @@ function ConsultarEmpleados() {
   };
 
   const handleDelete = async () => {
+    if (!empleadoToDelete) return;
     const { error } = await supabaseClient
       .from("usuario")
       .delete()
@@ -72,7 +76,6 @@ function ConsultarEmpleados() {
     setEmpleadoToDelete(null);
   };
 
-  // Filtrado de empleados basado en el texto ingresado en la búsqueda
   const filteredEmpleados = empleados.filter((empleado) =>
     `${empleado.nombre} ${empleado.apellidop} ${empleado.correo}`
       .toLowerCase()
@@ -81,6 +84,7 @@ function ConsultarEmpleados() {
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
+      {/* Título y barra de búsqueda */}
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
         <h1 className={`${playfair_Display.className} text-4xl font-bold`}>Empleados</h1>
         <div className={`${roboto.className} border border-negro rounded-[20px] flex`}>
@@ -94,6 +98,8 @@ function ConsultarEmpleados() {
           />
         </div>
       </div>
+
+      {/* Tabla de empleados */}
       <div className="w-full overflow-x-auto">
         <table className={`${roboto.className} w-full md:w-[80vw] mt-5 rounded-tl-[25px]`}>
           <thead>
@@ -111,19 +117,11 @@ function ConsultarEmpleados() {
             {filteredEmpleados.map((empleado) => (
               <tr key={empleado.id} className="hover:bg-azul">
                 <td className="border border-negro p-2">{empleado.nombre}</td>
-                <td className="border border-negro p-2">
-                  {empleado.apellidop}
-                </td>
-                <td className="border border-negro p-2">
-                  {empleado.apellidom}
-                </td>
+                <td className="border border-negro p-2">{empleado.apellidop}</td>
+                <td className="border border-negro p-2">{empleado.apellidom}</td>
                 <td className="border border-negro p-2">{empleado.correo}</td>
-                <td className="border border-negro p-2">
-                  {getRolNombre(empleado.rolid)}
-                </td>
-                <td className="border border-negro p-2">
-                  {empleado.sueldobase}
-                </td>
+                <td className="border border-negro p-2">{getRolNombre(empleado.rolid)}</td>
+                <td className="border border-negro p-2">{empleado.sueldobase}</td>
                 <td className="border border-negro">
                   <button
                     className={`${roboto.className} border border-negro rounded-[25px] bg-azul p-1 m-1`}
@@ -143,6 +141,8 @@ function ConsultarEmpleados() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal de edición */}
       {openEdit && (
         <EditarEmpleados
           onClose={handleCloseEdit}
@@ -150,6 +150,8 @@ function ConsultarEmpleados() {
           onUpdate={fetchEmpleados}
         />
       )}
+
+      {/* Modal de confirmación de eliminación */}
       {showConfirmDelete && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-5 rounded-lg shadow-lg">
