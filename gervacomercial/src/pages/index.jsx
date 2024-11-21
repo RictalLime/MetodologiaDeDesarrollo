@@ -54,6 +54,22 @@ function Home() {
           "El usuario no existe en las bases de datos (public y auth)"
         );
       } else {
+        // Insertar asistencia
+        const { data: asistenciaData, error: asistenciaError } =
+          await supabaseClient
+            .from("asistencia")
+            .insert([
+              { usuarioid: userData.id, fecha: new Date().toISOString() },
+            ])
+            .select();
+
+        if (asistenciaError) {
+          console.log(asistenciaError);
+        } else {
+          console.log("Asistencia registrada:", asistenciaData);
+        }
+
+        // Redirigir según el rol del usuario
         if (userData.rolid === 1) {
           router.push({
             pathname: "/PerfilAdmin",
@@ -80,6 +96,9 @@ function Home() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-2 flex flex-col">
+          <label className="text-lg font-bold">
+            Correo Electrónico o nombre de usuario
+          </label>
           <label className={`${roboto.className} text-lg font-bold`}>Correo Electrónico</label>
           <input
             className={`${roboto.className} border-2 border-negro rounded-[25px] py-2 px-4`}
@@ -109,6 +128,14 @@ function Home() {
         >
           Iniciar sesión
         </button>
+        <div className="w-full flex justify-center">
+          <Link
+            href={"/contrasena"}
+            className="text-lg underline underline-offset-1"
+          >
+            Olvidé mi contraseña
+          </Link>
+        </div>
       </form>
     </div>
   );
