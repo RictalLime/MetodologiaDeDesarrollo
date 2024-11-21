@@ -7,6 +7,7 @@ import { roboto, playfair_Display } from "@/utils/fonts";
 
 function RegistrarEmpleados() {
   const [roles, setRoles] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getRoles();
@@ -64,20 +65,26 @@ function RegistrarEmpleados() {
         console.log(error);
       } else {
         console.log(data);
-        alert("Usuario creado correctamente");
+        setShowModal(true); // Mostrar el modal
         reset();
       }
     }
   };
+
   return (
     <div className="w-screen h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
-      <h1 className={`${playfair_Display.className} text-[64px] font-bold`}>Registrar empleados</h1>
+      <h1 className={`${playfair_Display.className} text-[64px] font-bold`}>
+        Registrar empleados
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center w-full md:w-[484px]"
       >
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Nombre de usuario
           </label>
           <input
@@ -91,7 +98,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Apellido paterno
           </label>
           <input
@@ -105,7 +115,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Apellido materno
           </label>
           <input
@@ -119,7 +132,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Correo
           </label>
           <input
@@ -133,7 +149,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Contraseña
           </label>
           <input
@@ -147,7 +166,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             RFC
           </label>
           <input
@@ -161,7 +183,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Sueldo por día
           </label>
           <input
@@ -176,7 +201,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Puesto
           </label>
           <select
@@ -196,7 +224,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Calle
           </label>
           <input
@@ -210,7 +241,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Numero de casa
           </label>
           <input
@@ -224,7 +258,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Código postal
           </label>
           <input
@@ -238,7 +275,10 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className={`${roboto.className} font-bold text-xl`}>
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Ciudad
           </label>
           <input
@@ -258,6 +298,21 @@ function RegistrarEmpleados() {
           Aceptar
         </button>
       </form>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">
+              Empleado registrado con éxito
+            </h2>
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

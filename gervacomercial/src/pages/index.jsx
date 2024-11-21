@@ -35,10 +35,6 @@ function Home() {
           refresh_token,
         });
 
-      if (session.user.email === "admin@gerva.com") {
-        router.push("/consultar-empleados");
-      }
-
       const { data: userData, error: userError } = await supabaseClient
         .from("usuario")
         .select("*")
@@ -50,9 +46,7 @@ function Home() {
 
       if (userError) {
         console.log(sessionError);
-        console.log(
-          "El usuario no existe en las bases de datos (public y auth)"
-        );
+        console.log("El usuario no existe en las bases de datos (public y auth)");
       } else {
         // Insertar asistencia
         const { data: asistenciaData, error: asistenciaError } =
@@ -73,12 +67,10 @@ function Home() {
         if (userData.rolid === 1) {
           router.push({
             pathname: "/PerfilAdmin",
-            query: { ...userData },
           });
         } else if (userData.rolid === 2) {
           router.push({
             pathname: "/PerfilVendedor",
-            query: { ...userData },
           });
         } else {
           console.log("Rol no reconocido");
@@ -89,17 +81,20 @@ function Home() {
 
   return (
     <div className="w-screen flex flex-col items-center bg-blanco p-5 md:p-10">
-      <h1 className={`${playfair_Display.className} text-3xl font-bold md:text-4xl text-center text-negro mb-10`}>Gerva Comercial</h1>
+      <h1
+        className={`${playfair_Display.className} text-3xl font-bold md:text-4xl text-center text-negro mb-10`}
+      >
+        Gerva Comercial
+      </h1>
       <h1 className={`${roboto.className} text-3xl`}>Iniciar sesión</h1>
       <form
         className="flex flex-col w-[360px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-2 flex flex-col">
-          <label className="text-lg font-bold">
-            Correo Electrónico o nombre de usuario
+          <label className={`${roboto.className} text-lg font-bold`}>
+            Correo Electrónico
           </label>
-          <label className={`${roboto.className} text-lg font-bold`}>Correo Electrónico</label>
           <input
             className={`${roboto.className} border-2 border-negro rounded-[25px] py-2 px-4`}
             type="text"
@@ -112,7 +107,9 @@ function Home() {
           )}
         </div>
         <div className="mb-2 flex flex-col">
-          <label className={`${roboto.className} text-lg font-bold`}>Contraseña</label>
+          <label className={`${roboto.className} text-lg font-bold`}>
+            Contraseña
+          </label>
           <input
             className={`${roboto.className} border-2 border-negro rounded-[25px] py-2 px-4`}
             type="password"
@@ -128,14 +125,6 @@ function Home() {
         >
           Iniciar sesión
         </button>
-        <div className="w-full flex justify-center">
-          <Link
-            href={"/contrasena"}
-            className="text-lg underline underline-offset-1"
-          >
-            Olvidé mi contraseña
-          </Link>
-        </div>
       </form>
     </div>
   );

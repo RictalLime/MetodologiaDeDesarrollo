@@ -82,6 +82,11 @@ export function RegistrarVenta() {
     }
   }
 
+  function reiniciarCalculos() {
+    setProductos([]);
+    setValorTotal("$0.00")
+  }
+
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
@@ -142,7 +147,7 @@ export function RegistrarVenta() {
         </button>
         <button
           className={`${roboto.className} border border-negro rounded-[25px] bg-red-400 p-1 w-40`}
-          onClick={() => setProductos([])}
+          onClick={reiniciarCalculos}
         >
           Cancelar
         </button>

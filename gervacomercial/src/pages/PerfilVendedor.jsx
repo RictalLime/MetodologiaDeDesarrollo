@@ -1,22 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { supabaseClient } from "@/utils/supabase";
+import { playfair_Display } from "@/utils/fonts";
 
 export default function PerfilVendedor() {
-  const router = useRouter();
-  const { nombre, rfc, correo, calle, numero, cp, ciudad, id } = router.query;
-
   const [asistencias, setAsistencias] = useState([]);
+  const [vendedorData, setVendedorData] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [comision, setComision] = useState("$0.00");
 
   useEffect(() => {
-    fetchAsistencias();
-  }, []);
+    const id = localStorage.getItem("userid");
+    setUserId(id);
+  });
+
+  // Hasta que esté cargado el id, se ejecuta el resto.
+  useEffect(() => {
+    if (userId) {
+      getVendedorData();
+      fetchAsistencias();
+      getComisionActual();
+    }
+  }, [userId]);
+
+  const getVendedorData = async () => {
+    const { data: vendedor, error } = await supabaseClient
+      .from("usuario")
+      .select(
+        "id, nombre, apellidop, apellidom, rfc, correo, sueldobase, calle, numero, cp, ciudad"
+      )
+      .eq("id", userId)
+      .single();
+
+    if (error) {
+      console.log(error);
+    } else {
+      setVendedorData(vendedor);
+    }
+  };
 
   const fetchAsistencias = async () => {
-    const { data: asistencias, error } = await supabaseClient
+    let { data: asistencias, error } = await supabaseClient
       .from("asistencia")
       .select("*")
-      .eq("usuarioid", id);
+      .eq("usuarioid", userId);
 
     if (error) {
       console.error(error);
@@ -47,9 +74,34 @@ export default function PerfilVendedor() {
     ));
   };
 
-  const handleTerminarTurno = async () => {
-    // Lógica para terminar el turno
-    router.push("/");
+  const getComisionActual = async () => {
+    const timestamp = new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Mexico_City",
+    });
+
+    const { data, error } = await supabaseClient
+      .rpc("obtener_comision_usuario", {
+        _usuario_id: userId,
+        _fecha_actual: timestamp,
+      })
+      .single();
+
+    if (error) {
+      console.log(error);
+      setComision("$0.00");
+    }
+    if (data) {
+      console.log(data.comision);
+
+      let texto = new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+      }).format(data.comision);
+
+      setComision(texto);
+    } else {
+      setComision("$0.00");
+    }
   };
 
   return (
@@ -62,50 +114,55 @@ export default function PerfilVendedor() {
             alt="Usuario"
           />
           <div className="flex flex-col">
-            <h1 className="text-[32px] font-bold">{nombre}</h1>
-            <label className="text-gray-600">Empleado</label>
+            <h1
+              className={`${playfair_Display.className} text-[32px] font-bold`}
+            >{`${vendedorData.nombre} ${vendedorData.apellidop} ${vendedorData.apellidom}`}</h1>
+            <label>Empleado</label>
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <button
-            onClick={handleTerminarTurno}
+          <Link
+            href={"/"}
             className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
           >
             Terminar turno
-          </button>
-          <img
-            src="/logout.svg"
-            className="w-6 h-6 text-red-500 cursor-pointer"
-            alt="Salir"
-            onClick={() => router.push("/")}
-          />
+          </Link>
+          <Link href={"/"}>
+            <img
+              src="/logout.svg"
+              className="w-6 h-6 text-red-500 cursor-pointer"
+              alt="Salir"
+            />
+          </Link>
         </div>
       </div>
       <div className="flex">
         <div className="m-10 p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro">
           <h2 className="text-3xl font-bold mb-4">Datos personales</h2>
           <p className="text-lg">
-            <span className="font-semibold">Nombre:</span> {nombre}
+            <span className="font-semibold">Nombre:</span> {vendedorData.nombre}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">RFC:</span> {rfc}
+            <span className="font-semibold">RFC:</span> {vendedorData.rfc}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">C. Electrónico:</span> {correo}
+            <span className="font-semibold">C. Electrónico:</span>{" "}
+            {vendedorData.correo}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">Dirección:</span> {calle} {numero},{" "}
-            {cp}, {ciudad}
+            <span className="font-semibold">Dirección:</span>{" "}
+            {vendedorData.calle} {vendedorData.numero}, {vendedorData.cp},{" "}
+            {vendedorData.ciudad}
           </p>
         </div>
         <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Comisiones</h2>
-            <span className="text-red-500 text-2xl">$</span>
+            <span className="text-red-500 text-2xl">{comision}</span>
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-lg">Primera quincena de noviembre</p>
-            <span className="text-4xl font-bold">$999</span>
+            <p className="text-lg">Sueldo de la semana:</p>
+            <span className="text-xl font-bold">{vendedorData.sueldobase}</span>
           </div>
         </div>
       </div>
