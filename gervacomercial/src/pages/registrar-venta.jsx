@@ -5,7 +5,6 @@ import { roboto, playfair_Display } from "@/utils/fonts";
 export function RegistrarVenta() {
   const [productos, setProductos] = useState([]);
   const [codigoProducto, setCodigoProducto] = useState("");
-  const [cantidadTotal, setCantidadTotal] = useState(0);
   const [valorTotal, setValorTotal] = useState("$0.00");
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -25,23 +24,57 @@ export function RegistrarVenta() {
     }
 
     if (data) {
-      setProductos((prevProductos) => [...prevProductos, data]);
-      setCantidadTotal((prevCantidad) => prevCantidad + 1);
-      setValorTotal((cantidadTotal) => {
-        const precioValor = parseFloat(data.precio.replace(/[^0-9.-]+/g, ""));
-        const cantidadTotalValor = parseFloat(
-          cantidadTotal.replace(/[^0-9.-]+/g, "")
-        );
+      setProductos((prevProductos) => {
+        const productoExistente = prevProductos.find((p) => p.id === data.id);
 
-        const nuevoTotal = precioValor + cantidadTotalValor;
+        if (productoExistente) {
+          return prevProductos.map((p) =>
+            p.id === data.id ? { ...p, cantidad: p.cantidad + 1 } : p
+          );
+        }
 
-        return new Intl.NumberFormat("es-MX", {
-          style: "currency",
-          currency: "MXN",
-        }).format(nuevoTotal);
+        return [...prevProductos, { ...data, cantidad: 1 }];
       });
+
+      actualizarTotal(data.precio, 1);
       setCodigoProducto("");
     }
+  };
+
+  const actualizarTotal = (precio, cantidad) => {
+    const precioNumerico = parseFloat(precio.replace(/[^0-9.-]+/g, ""));
+    const nuevoTotal =
+      parseFloat(valorTotal.replace(/[^0-9.-]+/g, "")) +
+      precioNumerico * cantidad;
+
+    setValorTotal(
+      new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+      }).format(nuevoTotal)
+    );
+  };
+
+  const disminuirCantidad = (producto) => {
+    setProductos((prevProductos) => {
+      const productoActualizado = prevProductos.map((p) =>
+        p.id === producto.id ? { ...p, cantidad: p.cantidad - 1 } : p
+      );
+
+      return productoActualizado.filter((p) => p.cantidad > 0);
+    });
+
+    actualizarTotal(producto.precio, -1);
+  };
+
+  const incrementarCantidad = (producto) => {
+    setProductos((prevProductos) =>
+      prevProductos.map((p) =>
+        p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p
+      )
+    );
+
+    actualizarTotal(producto.precio, 1);
   };
 
   const registrarVenta = async () => {
@@ -50,7 +83,7 @@ export function RegistrarVenta() {
     const detallesVenta = productos.map((producto) => ({
       productoId: producto.id,
       preciounitario: producto.precio.replace(/[^0-9.-]+/g, ""),
-      cantidad: 1,
+      cantidad: producto.cantidad,
     }));
 
     const { data, error } = await supabaseClient.rpc("registrar_venta", {
@@ -65,23 +98,11 @@ export function RegistrarVenta() {
     } else {
       console.log("Venta registrada con éxito:", data);
       setProductos([]);
-      setCantidadTotal(0);
       setValorTotal("$0.00");
       setModalMessage("¡Venta registrada con éxito!");
       setShowModal(true);
     }
   };
-
-  function isEnter(event) {
-    if (event.key === "Enter") {
-      agregarProducto(event);
-    }
-  }
-
-  function reiniciarCalculos() {
-    setProductos([]);
-    setValorTotal("$0.00");
-  }
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
@@ -114,7 +135,7 @@ export function RegistrarVenta() {
             placeholder="Añade el código del producto"
             value={codigoProducto}
             onChange={(e) => setCodigoProducto(e.target.value)}
-            onKeyDown={isEnter}
+            onKeyDown={(e) => e.key === "Enter" && agregarProducto()}
             className={`${roboto.className} rounded-tr-[20px] rounded-br-[20px] p-2 w-[250px]`}
           />
         </div>
@@ -126,6 +147,7 @@ export function RegistrarVenta() {
             <th className="rounded-tl-[25px]">Id</th>
             <th>Modelo</th>
             <th>Precio</th>
+            <th>Cantidad</th>
             <th className="rounded-tr-[25px]">Acciones</th>
           </tr>
         </thead>
@@ -135,7 +157,20 @@ export function RegistrarVenta() {
               <td className="border border-negro">{producto.id}</td>
               <td className="border border-negro">{producto.nombre}</td>
               <td className="border border-negro">{producto.precio}</td>
-              <td className="border border-negro">
+              <td className="border border-negro">{producto.cantidad}</td>
+              <td className="border border-negro flex items-center">
+                <button
+                  className={`${roboto.className} border border-negro rounded-[25px] bg-azul w-10`}
+                  onClick={() => disminuirCantidad(producto)}
+                >
+                  -
+                </button>
+                <button
+                  className={`${roboto.className} border border-negro rounded-[25px] bg-azul w-10 ml-2`}
+                  onClick={() => incrementarCantidad(producto)}
+                >
+                  +
+                </button>
                 <button
                   className={`${roboto.className}`}
                   onClick={() =>
@@ -152,9 +187,6 @@ export function RegistrarVenta() {
       <div
         className={`${roboto.className} flex justify-between w-full md:w-[80vw] mt-5`}
       >
-        <label>Total de artículos: {productos.length}</label>
-        <label>Cajero: </label>
-        <label>Id de la venta:</label>
         <label>Valor total de la venta: {valorTotal}</label>
       </div>
       <div>
@@ -163,12 +195,6 @@ export function RegistrarVenta() {
           onClick={registrarVenta}
         >
           Registrar
-        </button>
-        <button
-          className={`${roboto.className} border border-negro rounded-[25px] bg-red-400 p-1 w-40`}
-          onClick={reiniciarCalculos}
-        >
-          Cancelar
         </button>
       </div>
     </div>
