@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterProduct } from "@/Schemas/RegisterProduct";
+import { RegisterProduct, TALLAS } from "@/Schemas/RegisterProduct";
 import { supabaseClient } from "@/utils/supabase";
 import { roboto, playfair_Display } from "@/utils/fonts";
 
@@ -115,12 +115,17 @@ function RegistrarProductos() {
           <label className={`${roboto.className} font-bold text-xl`}>
             Talla
           </label>
-          <input
-            type="number"
+          <select
             className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
-            {...register("talla", { valueAsNumber: true })}
-            name="talla"
-          />
+            {...register("talla")}
+          >
+            <option value="">Elige una talla</option>
+            {Object.entries(TALLAS).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            ))}
+          </select>
           {errors.talla && (
             <span className="text-red-500">{errors.talla.message}</span>
           )}

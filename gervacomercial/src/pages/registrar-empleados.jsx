@@ -8,6 +8,7 @@ import { roboto, playfair_Display } from "@/utils/fonts";
 function RegistrarEmpleados() {
   const [roles, setRoles] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     getRoles();
@@ -33,16 +34,26 @@ function RegistrarEmpleados() {
   });
 
   const onSubmit = async (formData) => {
-    console.log(formData);
+    try {
+      let { error: signUpError } = await supabaseClient.auth.signUp({
+        email: formData.correo,
+        password: formData.contrasenia,
+      });
 
-    let { error } = await supabaseClient.auth.signUp({
-      email: formData.correo,
-      password: formData.contrasenia,
-    });
-    if (error) {
-      console.log(error);
-    } else {
-      let { data, error } = await supabaseClient
+      if (signUpError) {
+        // Si el correo ya existe, muestra el mensaje correspondiente
+        if (signUpError.message.includes("already registered")) {
+          setModalMessage(
+            "El usuario ya está registrado. Por favor, intenta con otro."
+          );
+        } else {
+          setModalMessage("Ocurrió un error al registrar el usuario.");
+        }
+        setShowModal(true);
+        return;
+      }
+
+      let { error: insertError, data } = await supabaseClient
         .from("usuario")
         .insert([
           {
@@ -61,13 +72,21 @@ function RegistrarEmpleados() {
           },
         ])
         .select();
-      if (error) {
-        console.log(error);
+
+      if (insertError) {
+        console.log(insertError);
+        setModalMessage(
+          "Ocurrió un error al guardar la información del usuario."
+        );
       } else {
-        console.log(data);
-        setShowModal(true); // Mostrar el modal
+        setModalMessage("Empleado registrado con éxito.");
         reset();
       }
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+      setModalMessage("Ocurrió un error inesperado.");
+      setShowModal(true);
     }
   };
 
@@ -187,12 +206,12 @@ function RegistrarEmpleados() {
             htmlFor="username"
             className={`${roboto.className} font-bold text-xl`}
           >
-            Sueldo por día
+            Sueldo por semana
           </label>
           <input
             type="number"
             name="sueldobase"
-            placeholder="Sueldo por día"
+            placeholder="Sueldo por semana"
             className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("sueldobase", { valueAsNumber: true })}
           />
@@ -301,9 +320,7 @@ function RegistrarEmpleados() {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">
-              Empleado registrado con éxito
-            </h2>
+            <h2 className="text-2xl font-bold mb-4">{modalMessage}</h2>
             <button
               className="bg-green-500 text-white px-4 py-2 rounded"
               onClick={() => setShowModal(false)}

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EditProduct } from "@/Schemas/EditProduct";
+import { RegisterProduct, TALLAS } from "@/Schemas/RegisterProduct";
 import { supabaseClient } from "@/utils/supabase";
+import { roboto } from "@/utils/fonts";
 
 function EditarProductos({ onClose, producto, onUpdate }) {
   const [modelos, setModelos] = useState([]);
@@ -58,7 +59,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditProduct),
+    resolver: zodResolver(RegisterProduct),
   });
 
   useEffect(() => {
@@ -120,12 +121,17 @@ function EditarProductos({ onClose, producto, onUpdate }) {
           </div>
           <div className="flex flex-col w-full">
             <label className="text-[20px]">Talla</label>
-            <input
-              type="number"
-              className="border border-negro rounded-[25px] py-2 px-4"
-              {...register("talla", { valueAsNumber: true })}
-              name="talla"
-            />
+            <select
+              className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
+              {...register("talla")}
+            >
+              <option value="">Elige una talla</option>
+              {Object.entries(TALLAS).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
             {errors.talla && (
               <span className="text-red-500">{errors.talla.message}</span>
             )}
