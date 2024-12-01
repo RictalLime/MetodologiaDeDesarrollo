@@ -16,10 +16,11 @@ function EditarProductos({ onClose, producto, onUpdate }) {
   }, []);
 
   useEffect(() => {
-    if (selectedMarca) {
-      getModelosByMarca(selectedMarca);
+    if (producto?.modelo?.marca?.id) {
+      setSelectedMarca(producto.modelo.marca.id);
+      getModelosByMarca(producto.modelo.marca.id);
     }
-  }, [selectedMarca]);
+  }, [producto]);
 
   const getModelos = async () => {
     let { data: modelo, error } = await supabaseClient
@@ -50,6 +51,15 @@ function EditarProductos({ onClose, producto, onUpdate }) {
       console.log(error);
     } else {
       setModelos(modelo);
+    }
+  };
+
+  const handleMarcaChange = (e) => {
+    const marcaId = e.target.value;
+    setSelectedMarca(marcaId);
+    setModelos([]); // Limpia los modelos mientras se carga la nueva lista
+    if (marcaId) {
+      getModelosByMarca(marcaId);
     }
   };
 
@@ -165,7 +175,8 @@ function EditarProductos({ onClose, producto, onUpdate }) {
             <select
               className="border border-negro rounded-[25px] py-2 px-4"
               {...register("marca")}
-              onChange={(e) => setSelectedMarca(e.target.value)}
+              onChange={handleMarcaChange}
+              value={selectedMarca} // Sincroniza el valor
             >
               <option value="">Elige una marca</option>
               {marcas?.map((marca) => (
@@ -174,6 +185,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
                 </option>
               ))}
             </select>
+
             {errors.marca && (
               <span className="text-red-500">{errors.marca.message}</span>
             )}
@@ -183,6 +195,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
             <select
               className="border border-negro rounded-[25px] py-2 px-4"
               {...register("modelo")}
+              value={producto?.modelo?.id || ""}
             >
               <option value="">Elige un modelo</option>
               {modelos?.map((modelo) => (
@@ -191,6 +204,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
                 </option>
               ))}
             </select>
+
             {errors.modelo && (
               <span className="text-red-500">{errors.modelo.message}</span>
             )}

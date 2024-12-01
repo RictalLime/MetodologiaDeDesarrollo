@@ -13,7 +13,6 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
 
   const getRoles = async () => {
     let { data: rol, error } = await supabaseClient.from("rol").select("*");
-    console.log(rol);
     if (error) {
       console.log(error);
     } else {
@@ -41,7 +40,7 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
       const sueldoBase =
         parseFloat(empleado.sueldobase.replace(/[^0-9.]/g, "")) || 0;
       setValue("sueldobase", sueldoBase);
-      setValue("rol", empleado.rol);
+      setValue("rol", empleado.rolid);
       setValue("calle", empleado.calle);
       setValue("numero", empleado.numero);
       setValue("cp", empleado.cp);
@@ -196,26 +195,28 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
                   </span>
                 )}
               </div>
-              <div className="flex flex-col w-full">
-                <label htmlFor="username" className="font-bold">
-                  Puesto
-                </label>
-                <select
-                  className="border rounded-[25px] border-black py-2 px-4"
-                  name="rol"
-                  {...register("rol")}
-                >
-                  <option value="">Elige un rol</option>
-                  {roles?.map((rol) => (
-                    <option key={rol.id} value={rol.id}>
-                      {rol.nombre}
-                    </option>
-                  ))}
-                </select>
-                {errors.rol && (
-                  <span className="text-red-500">{errors.rol.message}</span>
-                )}
-              </div>
+              {roles.length > 0 && (
+                <div className="flex flex-col w-full">
+                  <label htmlFor="username" className="font-bold">
+                    Puesto
+                  </label>
+                  <select
+                    className="border rounded-[25px] border-black py-2 px-4"
+                    name="rol"
+                    {...register("rol")}
+                  >
+                    <option value="">Elige un rol</option>
+                    {roles.map((rol) => (
+                      <option key={rol.id} value={rol.id}>
+                        {rol.nombre}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.rol && (
+                    <span className="text-red-500">{errors.rol.message}</span>
+                  )}
+                </div>
+              )}
               <div className="flex flex-col w-full">
                 <label htmlFor="username" className="font-bold">
                   Calle

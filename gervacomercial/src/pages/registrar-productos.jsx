@@ -26,7 +26,6 @@ function RegistrarProductos() {
     let { data: modelo, error } = await supabaseClient
       .from("modelo")
       .select("*");
-    console.log(modelo);
     if (error) {
       console.log(error);
     } else {
@@ -36,7 +35,6 @@ function RegistrarProductos() {
 
   const getMarcas = async () => {
     let { data: marca, error } = await supabaseClient.from("marca").select("*");
-    console.log(marca);
     if (error) {
       console.log(error);
     } else {

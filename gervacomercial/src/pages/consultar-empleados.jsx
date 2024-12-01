@@ -82,8 +82,12 @@ function ConsultarEmpleados() {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
       <div className="flex flex-col md:flex-row w-[80vw] justify-between mb-5">
-        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>Empleados</h1>
-        <div className={`${roboto.className} border border-negro rounded-[20px] flex`}>
+        <h1 className={`${playfair_Display.className} text-4xl font-bold`}>
+          Empleados
+        </h1>
+        <div
+          className={`${roboto.className} border border-negro rounded-[20px] flex`}
+        >
           <img src="/assets/search.svg" alt="Buscar" className="w-10" />
           <input
             type="text"
@@ -95,7 +99,9 @@ function ConsultarEmpleados() {
         </div>
       </div>
       <div className="w-full overflow-x-auto">
-        <table className={`${roboto.className} w-full md:w-[80vw] mt-5 rounded-tl-[25px]`}>
+        <table
+          className={`${roboto.className} w-full md:w-[80vw] mt-5 rounded-tl-[25px]`}
+        >
           <thead>
             <tr className="bg-azul rounded-tl-[25px] rounded-tr-[25px]">
               <th className="rounded-tl-[25px]">Nombre</th>
