@@ -31,14 +31,16 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
   });
 
   useEffect(() => {
-    if (empleado) {
+    if (empleado && empleado.sueldobase) {
       setValue("nombre", empleado.nombre);
       setValue("apellidop", empleado.apellidop);
       setValue("apellidom", empleado.apellidom);
       setValue("correo", empleado.correo);
       setValue("contrasenia", empleado.contrasenia);
       setValue("rfc", empleado.rfc);
-      setValue("sueldobase", parseFloat(empleado.sueldobase.replace("$", "")));
+      const sueldoBase =
+        parseFloat(empleado.sueldobase.replace(/[^0-9.]/g, "")) || 0;
+      setValue("sueldobase", sueldoBase);
       setValue("rol", empleado.rol);
       setValue("calle", empleado.calle);
       setValue("numero", empleado.numero);
@@ -179,12 +181,12 @@ function EditarEmpleados({ onClose, empleado, onUpdate }) {
             <div className="w-full md:w-1/2">
               <div className="flex flex-col w-full">
                 <label htmlFor="username" className="font-bold">
-                  Sueldo base
+                  Sueldo por semana
                 </label>
                 <input
                   type="number"
                   name="sueldobase"
-                  placeholder="Sueldo por día"
+                  placeholder="Sueldo por semana"
                   className="border rounded-[25px] border-black py-2 px-4"
                   {...register("sueldobase", { valueAsNumber: true })}
                 />
