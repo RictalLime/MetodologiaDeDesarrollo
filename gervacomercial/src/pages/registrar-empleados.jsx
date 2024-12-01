@@ -3,9 +3,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Employee } from "@/Schemas/Employee";
 import { supabaseClient } from "@/utils/supabase";
+import { roboto, playfair_Display } from "@/utils/fonts";
 
 function RegistrarEmpleados() {
   const [roles, setRoles] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     getRoles();
@@ -31,16 +34,26 @@ function RegistrarEmpleados() {
   });
 
   const onSubmit = async (formData) => {
-    console.log(formData);
+    try {
+      let { error: signUpError } = await supabaseClient.auth.signUp({
+        email: formData.correo,
+        password: formData.contrasenia,
+      });
 
-    let { error } = await supabaseClient.auth.signUp({
-      email: formData.correo,
-      password: formData.contrasenia,
-    });
-    if (error) {
-      console.log(error);
-    } else {
-      let { data, error } = await supabaseClient
+      if (signUpError) {
+        // Si el correo ya existe, muestra el mensaje correspondiente
+        if (signUpError.message.includes("already registered")) {
+          setModalMessage(
+            "El usuario ya está registrado. Por favor, intenta con otro."
+          );
+        } else {
+          setModalMessage("Ocurrió un error al registrar el usuario.");
+        }
+        setShowModal(true);
+        return;
+      }
+
+      let { error: insertError, data } = await supabaseClient
         .from("usuario")
         .insert([
           {
@@ -59,30 +72,44 @@ function RegistrarEmpleados() {
           },
         ])
         .select();
-      if (error) {
-        console.log(error);
+
+      if (insertError) {
+        console.log(insertError);
+        setModalMessage(
+          "Ocurrió un error al guardar la información del usuario."
+        );
       } else {
-        console.log(data);
-        alert("Usuario creado correctamente");
+        setModalMessage("Empleado registrado con éxito.");
         reset();
       }
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+      setModalMessage("Ocurrió un error inesperado.");
+      setShowModal(true);
     }
   };
+
   return (
     <div className="w-screen h-screen flex flex-col items-center bg-white text-black p-5 md:p-20">
-      <h1 className="text-[64px]">Registrar empleados</h1>
+      <h1 className={`${playfair_Display.className} text-[64px] font-bold`}>
+        Registrar empleados
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center w-full md:w-[484px]"
       >
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Nombre de usuario
           </label>
           <input
             type="text"
             name="nombre"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("nombre")}
           />
           {errors.nombre && (
@@ -90,13 +117,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Apellido paterno
           </label>
           <input
             type="text"
             name="apellidop"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("apellidop")}
           />
           {errors.apellidop && (
@@ -104,13 +134,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Apellido materno
           </label>
           <input
             type="text"
             name="apellidom"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("apellidom")}
           />
           {errors.apellidom && (
@@ -118,13 +151,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Correo
           </label>
           <input
             type="text"
             name="correo"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("correo")}
           />
           {errors.correo && (
@@ -132,13 +168,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Contraseña
           </label>
           <input
             type="password"
             name="contrasenia"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("contrasenia")}
           />
           {errors.contrasenia && (
@@ -146,13 +185,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             RFC
           </label>
           <input
             type="text"
             name="rfc"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("rfc")}
           />
           {errors.rfc && (
@@ -160,14 +202,17 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
-            Sueldo por día
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
+            Sueldo por semana
           </label>
           <input
             type="number"
             name="sueldobase"
-            placeholder="Sueldo por día"
-            className="border rounded-[25px] border-black py-2 px-4"
+            placeholder="Sueldo por semana"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("sueldobase", { valueAsNumber: true })}
           />
           {errors.sueldobase && (
@@ -175,11 +220,14 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Puesto
           </label>
           <select
-            className="border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             name="rol"
             {...register("rol")}
           >
@@ -195,13 +243,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Calle
           </label>
           <input
             type="text"
             name="calle"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("calle")}
           />
           {errors.calle && (
@@ -209,13 +260,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Numero de casa
           </label>
           <input
             type="number"
             name="numero"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("numero", { valueAsNumber: true })}
           />
           {errors.numero && (
@@ -223,13 +277,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Código postal
           </label>
           <input
             type="text"
             name="cp"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("cp")}
           />
           {errors.cp && (
@@ -237,13 +294,16 @@ function RegistrarEmpleados() {
           )}
         </div>
         <div className="flex flex-col mt-5 w-full">
-          <label htmlFor="username" className="font-bold text-xl">
+          <label
+            htmlFor="username"
+            className={`${roboto.className} font-bold text-xl`}
+          >
             Ciudad
           </label>
           <input
             type="text"
             name="ciudad"
-            className=" border rounded-[25px] border-black py-2 px-4"
+            className={`${roboto.className} border rounded-[25px] border-black py-2 px-4`}
             {...register("ciudad")}
           />
           {errors.ciudad && (
@@ -251,12 +311,25 @@ function RegistrarEmpleados() {
           )}
         </div>
         <button
-          className="border border-negro bg-green-300 rounded-[25px] px-10 py-2 mt-10"
+          className={`${playfair_Display.className} font-bold border border-negro bg-green-300 rounded-[25px] px-10 py-2 mt-10`}
           type="submit"
         >
           Aceptar
         </button>
       </form>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">{modalMessage}</h2>
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

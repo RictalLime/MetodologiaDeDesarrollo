@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EditProduct } from "@/Schemas/EditProduct";
+import { RegisterProduct, TALLAS } from "@/Schemas/RegisterProduct";
 import { supabaseClient } from "@/utils/supabase";
+import { roboto } from "@/utils/fonts";
 
 function EditarProductos({ onClose, producto, onUpdate }) {
   const [modelos, setModelos] = useState([]);
@@ -58,7 +59,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(EditProduct),
+    resolver: zodResolver(RegisterProduct),
   });
 
   useEffect(() => {
@@ -100,7 +101,7 @@ function EditarProductos({ onClose, producto, onUpdate }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="flex flex-col items-center rounded-[20px] w-[90%] md:w-[484px] bg-white text-negro p-5 max-h-[80vh] overflow-y-auto">
-        <h1 className="text-4xl">Editar Producto</h1>
+        <h1 className="text-4xl">Editar {producto.nombre}</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center px-4 w-full"
@@ -120,12 +121,17 @@ function EditarProductos({ onClose, producto, onUpdate }) {
           </div>
           <div className="flex flex-col w-full">
             <label className="text-[20px]">Talla</label>
-            <input
-              type="number"
-              className="border border-negro rounded-[25px] py-2 px-4"
-              {...register("talla", { valueAsNumber: true })}
-              name="talla"
-            />
+            <select
+              className={`${roboto.className} border border-negro rounded-[25px] py-2 px-4`}
+              {...register("talla")}
+            >
+              <option value="">Elige una talla</option>
+              {Object.entries(TALLAS).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
             {errors.talla && (
               <span className="text-red-500">{errors.talla.message}</span>
             )}

@@ -4,15 +4,15 @@ export const Employee = z.object({
   nombre: z
     .string()
     .nonempty("Escribe el nombre")
-    .regex(/^[a-zA-Z\s]+$/, "Solo se permiten letras en el nombre"),
+    .regex(/^[\p{L}\s]+$/u, "Solo se permiten letras en el nombre"),
   apellidop: z
     .string()
     .nonempty("Escribe el apellido paterno")
-    .regex(/^[a-zA-Z]+$/, "Solo se permiten letras en el nombre"),
+    .regex(/^[\p{L}\s]+$/u, "Solo se permiten letras en el nombre"),
   apellidom: z
     .string()
     .nonempty("Escribe el apellido materno")
-    .regex(/^[a-zA-Z]+$/, "Solo se permiten letras en el nombre"),
+    .regex(/^[\p{L}\s]+$/u, "Solo se permiten letras en el nombre"),
   correo: z.string().email("Escribe un correo válido"),
   contrasenia: z
     .string()
