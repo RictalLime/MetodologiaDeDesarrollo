@@ -68,7 +68,10 @@ export default function PerfilVendedor() {
     });
 
     return days.map((day, index) => (
-      <div key={index} className="p-3 border-2 rounded-lg bg-blanco text-black">
+      <div
+        key={index}
+        className="p-3 m-1 md:m-0 border-2 rounded-lg bg-blanco text-black"
+      >
         {asistenciaMap[day] || " "}
       </div>
     ));
@@ -120,7 +123,7 @@ export default function PerfilVendedor() {
             <label>Empleado</label>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <Link
             href={"/"}
             className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
@@ -136,8 +139,8 @@ export default function PerfilVendedor() {
           </Link>
         </div>
       </div>
-      <div className="flex">
-        <div className="m-10 p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro">
+      <div className="flex flex-col md:flex-row">
+        <div className="m-10 p-8 rounded-lg bg-azul text-black w-[80vw] md:w-[40vw] border-2 border-negro">
           <h2 className="text-3xl font-bold mb-4">Datos personales</h2>
           <p className="text-lg">
             <span className="font-semibold">Nombre:</span> {vendedorData.nombre}
@@ -155,7 +158,7 @@ export default function PerfilVendedor() {
             {vendedorData.ciudad}
           </p>
         </div>
-        <div className="p-8 rounded-lg bg-azul text-black w-[40vw] border-2 border-negro m-10">
+        <div className="p-8 rounded-lg bg-azul text-black w-[80vw] md:w-[40vw] border-2 border-negro m-10">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Comisiones</h2>
             <span className="text-red-500 text-2xl">{comision}</span>
@@ -166,10 +169,10 @@ export default function PerfilVendedor() {
           </div>
         </div>
       </div>
-      <div className="flex m-10 gap-12 w-[60vw]">
+      <div className="flex m-10 w-[80vw] md:w-[70vw]">
         <div className="p-8 rounded-lg bg-azul text-black w-full border-2 border-negro">
           <h2 className="text-2xl font-bold mb-4">Asistencias</h2>
-          <div className="grid grid-cols-7 gap-2 text-base">
+          <div className="flex flex-wrap justify-between text-base">
             {renderAsistencias()}
           </div>
         </div>

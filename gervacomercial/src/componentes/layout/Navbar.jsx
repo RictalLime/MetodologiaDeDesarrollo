@@ -24,8 +24,8 @@ function Navbar() {
   };
 
   return (
-    <div>
-      <div className="w-screen h-20 bg-azul flex justify-between items-center px-4">
+    <div className="mb-10">
+      <div className="w-screen h-20 bg-azul flex justify-between items-center px-4 fixed">
         <div className="flex items-center">
           <img
             src="/menu.svg"
